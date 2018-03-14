@@ -17,7 +17,7 @@ input[type="radio"] {
 }
 // 选中 radio 后的 label
 input:checked + label {
-   background-color: #fff;
+   background-color: #ccc
 }
 
 // 主 contaienr 定高定宽
@@ -92,6 +92,62 @@ input:checked + label {
     }
 
     &-img {
+        width: 2rem;
+        height: 2rem;
+        border: 1px solid #ccc;
+        font-size: 0.2rem;
+    }
+}
+
+// 第二轮 16 进 8
+.two {
+    &-form {
+        display: flex;
+        justify-content: space-between;
+    }
+    &-label {
+        width: 2rem;
+        height: 2rem;
+        border: 1px solid #ccc;
+        font-size: 0.2rem;
+    }
+}
+
+// 第三轮 8 进 4
+.thr {
+    &-form {
+        display: flex;
+        justify-content: space-between;
+    }
+    &-label {
+        width: 2rem;
+        height: 2rem;
+        border: 1px solid #ccc;
+        font-size: 0.2rem;
+    }
+}
+
+// 第四轮 4 进 2
+.fur {
+    &-form {
+        display: flex;
+        justify-content: space-between;
+    }
+    &-label {
+        width: 2rem;
+        height: 2rem;
+        border: 1px solid #ccc;
+        font-size: 0.2rem;
+    }
+}
+
+// 第五轮 决赛
+.final {
+    &-form {
+        display: flex;
+        justify-content: space-between;
+    }
+    &-label {
         width: 2rem;
         height: 2rem;
         border: 1px solid #ccc;
