@@ -1,0 +1,113 @@
+* {
+    margin :0;
+    padding: 0;
+}
+html, body {
+    width: 10rem;
+    height: 100%;
+    // 调试用
+    overflow-y: hidden;
+}
+input[type="radio"] {
+    width: 0;
+    height: 0;
+    display: inline-block;
+    opacity: 0;
+    position: absolute;
+}
+// 选中 radio 后的 label
+input:checked + label {
+   background-color: #fff;
+}
+
+// 主 contaienr 定高定宽
+.container {
+    width: 10rem;
+    height: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-top: 0;
+    margin-left: 0;
+    
+    // 开发的时候暂时注释掉
+    // overflow: hidden;
+}
+
+// 左右滑动的 slide 定高定宽
+.slide {
+    &-container {
+        width: 100rem;
+        height: 100%;
+    }
+
+    // 每栏元素 item 定稿定宽
+    &-items {
+        width: 10rem;
+        height: 100%;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        float: left;
+    }
+}
+
+// 首页-开启
+.home {
+    position: relative;
+    background-image: url('../imgs/home-bg.png');
+    background-size: cover;
+    height: 100%;
+    min-height: 16rem;
+    
+    &-btn {
+        position: absolute;
+        width: 3.133rem;
+        height: 1.16rem;
+        background-image: url('../imgs/home-btn.png');
+        background-size: cover;
+        left: 50%;
+        margin-left: -1.55rem;
+        top: 12rem;
+    }
+}
+
+// 选择队伍第一页
+.one {
+    box-sizing: border-box;
+    position: relative;
+    background-image: url('../imgs/one-bg.png');
+    background-size: cover;
+    height: 100%;
+    min-height: 16rem;
+    padding-top: 3.2rem;
+
+    // 48-32 整个列表
+    &-list {
+        
+    }
+
+    &-form {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &-img {
+        width: 2rem;
+        height: 2rem;
+        border: 1px solid #ccc;
+        font-size: 0.2rem;
+    }
+}
+
+// 选择列表
+.list {
+    &-container {
+        margin-left: auto;
+        margin-right: auto;
+        width: 8.266rem;
+        height: 10.6rem;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        border: 1px solid #ccc;
+    }
+}

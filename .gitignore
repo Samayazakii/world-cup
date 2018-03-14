@@ -1,0 +1,7 @@
+.idea
+node_modules
+jspm_packages
+.DS_Store
+.npm
+.eslintcache
+.node_repl_history
