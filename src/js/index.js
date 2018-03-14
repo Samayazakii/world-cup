@@ -205,22 +205,37 @@
         tplStr = tplArr.join('\n');
         element.innerHTML = tplStr;
     }
+    
+    // 生成图片，需要调整一下样式
+    function generateImage(src, target) {
+        global.html2canvas(src).then(canvas => {
+            let image = new Image();
+            
+            image.src = canvas.toDataURL("image/png");
+            target.appendChild(image);
+        });
+    }
 
     // 执行首次生成数据
     initData();
 
     // 导出到全局
     global.getOneList = getOneList;
-    global.eightFour = function () {
+    global.eightFour = function() {
         roundTwoArr = filterList(document.getElementById("list-two"));
         generateData(roundTwoArr, document.getElementById("list-thr"));
     }
-    global.fourTwo = function () {
+    global.fourTwo = function() {
         roundThrArr = filterList(document.getElementById("list-thr"));
         generateData(roundThrArr, document.getElementById("list-fur"));
     }
-    global.twoOne = function () {
+    global.twoOne = function() {
         roundFurArr = filterList(document.getElementById("list-fur"));
         generateData(roundFurArr, document.getElementById("list-final"));
     }
+    global.getImg = function() {
+        generateImage(document.getElementById("one"), document.getElementById("result"));
+    }
+
+    setTimeout(getImg, 1000);
 })(window);

@@ -168,6 +168,16 @@
         element.innerHTML = tplStr;
     }
 
+    // 生成图片，需要调整一下样式
+    function generateImage(src, target) {
+        global.html2canvas(src).then(function (canvas) {
+            var image = new Image();
+
+            image.src = canvas.toDataURL("image/png");
+            target.appendChild(image);
+        });
+    }
+
     // 执行首次生成数据
     initData();
 
@@ -185,4 +195,9 @@
         roundFurArr = filterList(document.getElementById("list-fur"));
         generateData(roundFurArr, document.getElementById("list-final"));
     };
+    global.getImg = function () {
+        generateImage(document.getElementById("one"), document.getElementById("result"));
+    };
+
+    setTimeout(getImg, 1000);
 })(window);
