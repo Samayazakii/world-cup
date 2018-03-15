@@ -191,6 +191,7 @@
     // 生成图片，需要调整一下样式
     function generateImage(src, target) {
         global.html2canvas(src).then(function (canvas) {
+            // TODO 二维码单独用 drawImage 画上去
             var image = new Image();
 
             image.src = canvas.toDataURL("image/png");
