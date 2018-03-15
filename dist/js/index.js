@@ -2,7 +2,7 @@
 
 (function (global) {
     // nameObj 存放学校名字，图片通过命名规范动态填入
-    var nameArr = [{ group: 'A', teams: ['大学', '大学', '大学'] }, { group: 'B', teams: ['大学', '大学', '大学'] }, { group: 'C', teams: ['大学', '大学', '大学'] }, { group: 'D', teams: ['大学', '大学', '大学'] }, { group: 'E', teams: ['大学', '大学', '大学'] }, { group: 'F', teams: ['大学', '大学', '大学'] }, { group: 'G', teams: ['大学', '大学', '大学'] }, { group: 'H', teams: ['大学', '大学', '大学'] }, { group: 'I', teams: ['大学', '大学', '大学'] }, { group: 'J', teams: ['大学', '大学', '大学'] }, { group: 'K', teams: ['大学', '大学', '大学'] }, { group: 'L', teams: ['大学', '大学', '大学'] }, { group: 'M', teams: ['大学', '大学', '大学'] }, { group: 'N', teams: ['大学', '大学', '大学'] }, { group: 'O', teams: ['大学', '大学', '大学'] }, { group: 'P', teams: ['大学', '大学', '大学'] }];
+    var nameArr = [{ group: 'A', teams: ['东北财经大学范德萨范德萨', '大学', '大学'] }, { group: 'B', teams: ['大学', '大学', '大学'] }, { group: 'C', teams: ['大学', '大学', '大学'] }, { group: 'D', teams: ['大学', '大学', '大学'] }, { group: 'E', teams: ['大学', '大学', '大学'] }, { group: 'F', teams: ['大学', '大学', '大学'] }, { group: 'G', teams: ['大学', '大学', '大学'] }, { group: 'H', teams: ['大学', '大学', '大学'] }, { group: 'I', teams: ['大学', '大学', '大学'] }, { group: 'J', teams: ['大学', '大学', '大学'] }, { group: 'K', teams: ['大学', '大学', '大学'] }, { group: 'L', teams: ['大学', '大学', '大学'] }, { group: 'M', teams: ['大学', '大学', '大学'] }, { group: 'N', teams: ['大学', '大学', '大学'] }, { group: 'O', teams: ['大学', '大学', '大学'] }, { group: 'P', teams: ['大学', '大学', '大学'] }];
     // teamArr 首次渲染数据之前生成，用于读取队伍信息，小组赛筛选
     var teamArr = [];
     // 筛选之前所有队伍信息，无分组
@@ -39,7 +39,7 @@
                     };
 
                     // 元素拼接
-                    _radioArr.push('\n                        <input type="radio" name="' + item.group + '-48" id="' + item.group + '-' + _in + '" value="' + item.group + '-' + _in + '">\n                        <label for="' + item.group + '-' + _in + '" class="one-img">\n                            <p>' + _it + '</p>\n                            <p>' + item.group + '-' + _in + '</p>\n                        </label>\n                    ');
+                    _radioArr.push('\n                        <input type="radio" name="' + item.group + '-48" id="' + item.group + '-' + _in + '" value="' + item.group + '-' + _in + '">\n                        <label for="' + item.group + '-' + _in + '" class="one-label">\n                            <div class="one-img"></div>\n                            <p>' + _it + '</p>\n                            <p>' + item.group + '-' + (_in + 1) + '</p>\n                        </label>\n                    ');
 
                     // 放入队伍池
                     teamPoolObj[item.group + '-' + _in] = obj;
@@ -49,7 +49,7 @@
 
             _radioStr = _radioArr.join('\n');
 
-            radioArr.push('<div>' + item.group + '</div>\n                <form id="' + item.group + '-48" class="one-form">\n                    ' + _radioStr + '\n                </form>');
+            radioArr.push('<div class="one-list_group">\n                    <div class="one-list_title">\n                        <div class="one-list_img" style="background-image: url(../imgs/one-group_' + item.group + '.png)"></div>\n                    </div>\n                </div>\n                <form id="' + item.group + '-48" class="one-form">\n                    ' + _radioStr + '\n                </form>');
 
             return groupData;
         });
@@ -129,11 +129,13 @@
 
     // 从剩 16 支队伍开始，使用生成函数，根据队生成选项，并渲染
     // 后面几轮的函数可以复用
-    function generateData(teams, element) {
+    function generateData(teams, element, tplType) {
         var index = 0;
         var teamObjArr = [];
         var tplArr = [];
         var tplStr = '';
+
+        tplType = tplType || 'two';
 
         // 按照对阵的顺序存的，每次取两个生成一个对局
         teamObjArr = teams.map(function (item, index) {
@@ -154,14 +156,32 @@
             }
         });
 
+        // 渲染
         while (teamObjArr.length > 0) {
             // 选出相邻的两个队
             var teamLeft = teamObjArr.shift();
             var teamRight = teamObjArr.shift();
             var prefix = teamLeft.val[0] + teamRight.val[0];
 
-            // 渲染
-            tplArr.push('\n                <form id="' + prefix + '" class="two-form">\n                    <input type="radio" name="' + prefix + '" id="' + prefix + '-0" value="' + teamLeft.val + '">\n                    <label for="' + prefix + '-0" class="two-label">\n                        <p>' + teamLeft.val + '</p>\n                    </label>\n                \n                    <input type="radio" name="' + prefix + '" id="' + prefix + '-1" value="' + teamRight.val + '">\n                    <label for="' + prefix + '-1" class="two-label">\n                        <p>' + teamRight.val + '</p>\n                    </label>\n                </form>\n            ');
+            switch (tplType) {
+                case 'two':
+                    tplArr.push('\n                        <form id="' + prefix + '" class="two-form">\n                            <input type="radio" name="' + prefix + '" id="' + prefix + '-0" value="' + teamLeft.val + '">\n                            <label for="' + prefix + '-0" class="two-label two-label_left">\n                                <div class="two-img"></div>\n                                <p class="two-name two-name_left">' + teamLeft.val + '</p>\n                            </label>\n                        \n                            <input type="radio" name="' + prefix + '" id="' + prefix + '-1" value="' + teamRight.val + '">\n                            <label for="' + prefix + '-1" class="two-label two-label_right">\n                                <p class="two-name two-name_right">' + teamRight.val + '</p>\n                                <div class="two-img"></div>\n                            </label>\n                        </form>\n                    ');
+
+                    break;
+
+                case 'fur':
+                    tplArr.push('\n                        <form id="' + prefix + '" class="fur-form">\n                            <input type="radio" name="' + prefix + '" id="' + prefix + '-0" value="' + teamLeft.val + '">\n                            <label for="' + prefix + '-0" class="fur-label">\n                                <div class="fur-img"></div>\n                                <p class="fur-name">' + teamLeft.val + '</p>\n                            </label>\n                        \n                            <input type="radio" name="' + prefix + '" id="' + prefix + '-1" value="' + teamRight.val + '">\n                            <label for="' + prefix + '-1" class="fur-label">\n                                <div class="fur-img"></div>\n                                <p class="fur-name">' + teamRight.val + '</p>\n                            </label>\n                        </form>\n                    ');
+
+                    break;
+
+                case 'final':
+                    tplArr.push('\n                        <form id="' + prefix + '" class="final-form">\n                            <input type="radio" name="' + prefix + '" id="' + prefix + '-0" value="' + teamLeft.val + '">\n                            <label for="' + prefix + '-0" class="final-label">\n                                <div class="final-img"></div>\n                                <p class="final-name">' + teamLeft.val + '</p>\n                            </label>\n                        \n                            <input type="radio" name="' + prefix + '" id="' + prefix + '-1" value="' + teamRight.val + '">\n                            <label for="' + prefix + '-1" class="final-label">\n                                <div class="final-img"></div>\n                                <p class="final-name">' + teamRight.val + '</p>\n                            </label>\n                        </form>\n                    ');
+
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         tplStr = tplArr.join('\n');
@@ -185,15 +205,15 @@
     global.getOneList = getOneList;
     global.eightFour = function () {
         roundTwoArr = filterList(document.getElementById("list-two"));
-        generateData(roundTwoArr, document.getElementById("list-thr"));
+        generateData(roundTwoArr, document.getElementById("list-thr"), 'two');
     };
     global.fourTwo = function () {
         roundThrArr = filterList(document.getElementById("list-thr"));
-        generateData(roundThrArr, document.getElementById("list-fur"));
+        generateData(roundThrArr, document.getElementById("list-fur"), 'fur');
     };
     global.twoOne = function () {
         roundFurArr = filterList(document.getElementById("list-fur"));
-        generateData(roundFurArr, document.getElementById("list-final"));
+        generateData(roundFurArr, document.getElementById("list-final"), 'final');
     };
     global.getImg = function () {
         generateImage(document.getElementById("one"), document.getElementById("result"));
