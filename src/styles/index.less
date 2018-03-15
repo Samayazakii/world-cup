@@ -42,7 +42,7 @@ input:checked + label > .final-img {
 // 左右滑动的 slide 定高定宽
 .slide {
     &-container {
-        width: 80rem;
+        width: 90rem;
         height: 100%;
     }
 
@@ -397,5 +397,127 @@ input:checked + label > .final-img {
         width: 2.8rem;
         height: 3.74rem;
         font-size: 0.2rem;
+    }
+}
+
+// =========================================================
+.share {
+    box-sizing: border-box;
+    position: relative;
+    background-image: url('../imgs/share-bg.png');
+    background-size: cover;
+    width: 10rem;
+    height: 16.08rem;
+
+    .eight-item {
+        box-sizing: border-box;
+        width: 2.64rem;
+        height: 1.25rem;
+        &_img {
+            margin: 0 auto;
+            width: 0.72rem;
+            height: 0.72rem;
+            background-color: #ccc;
+            border-radius: 50%;
+        }
+        &_name {
+            padding: 0.1rem;
+            font-size: 0.27rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+    &-eight {
+        &_left {
+            position: absolute;
+            top: 3.53rem;
+            left: 0;
+        }
+        &_right {
+            position: absolute;
+            top: 3.53rem;
+            right: -0.01rem;
+        }
+    }
+
+    .four-item {
+        box-sizing: border-box;
+        width: 0.72rem;
+        height: 2.5rem;
+        &_img {
+            margin: 0 auto;
+            width: 0.72rem;
+            height: 0.72rem;
+            background-color: #ccc;
+            border-radius: 50%;
+        }
+    }
+    &-four {
+        &_left {
+            position: absolute;
+            top: 4.15rem;
+            left: 2.75rem;
+        }   
+        &_right {
+            position: absolute;
+            top: 4.15rem;
+            right: 2.74rem;
+        }   
+    }
+
+    .two-item {
+        box-sizing: border-box;
+        width: 0.72rem;
+        height: 5rem;
+        &_img {
+            margin: 0 auto;
+            width: 0.72rem;
+            height: 0.72rem;
+            background-color: #ccc;
+            border-radius: 50%;
+        }
+    }
+    &-two {
+        &_left {
+            position: absolute;
+            top: 5.39rem;
+            left: 3.24rem;
+        }
+        &_right {
+            position: absolute;
+            top: 5.39rem;
+            right: 3.22rem;
+        }  
+    }
+
+    &-one_left {
+        position: absolute;
+        width: 0.72rem;
+        height: 0.72rem;
+        top: 7.87rem;
+        left: 3.72rem;
+        background-color: #ccc;
+        border-radius: 50%;
+    }
+
+    &-one_right {
+        position: absolute;
+        width: 0.72rem;
+        height: 0.72rem;
+        top: 7.87rem;
+        right: 3.71rem;
+        background-color: #ccc;
+        border-radius: 50%;
+    }
+
+    &-winner {
+        position: absolute;
+        width: 0.88rem;
+        height: 0.88rem;
+        top: 6.78rem;
+        left: 4.56rem;
+        background-color: #ccc;
+        border-radius: 50%;
     }
 }

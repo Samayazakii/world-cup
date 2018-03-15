@@ -219,5 +219,5 @@
         generateImage(document.getElementById("one"), document.getElementById("result"));
     };
 
-    setTimeout(getImg, 1000);
+    // setTimeout(getImg, 1000);
 })(window);
