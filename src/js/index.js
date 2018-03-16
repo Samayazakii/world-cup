@@ -39,6 +39,9 @@
     let thrBtn = document.getElementById("thr-btn");
     let furBtn = document.getElementById("fur-btn");
     let finalBtn = document.getElementById("final-btn");
+    
+    // 是否可以翻页
+    let SLIDE_NEXT = false;
 
     // 生成小组赛数据、所有队伍信息、分组信息。渲染小组赛选项
     // 小组赛的赛制和后面几轮有区别，单独写一个函数
@@ -106,6 +109,7 @@
         let oneFormArr = document.querySelectorAll("#list-one form");
         // 记录获胜的队伍
         let winTeamArr = [];
+        let selectAll = true;
 
         oneFormArr.forEach((item, index) => {
             let inputArr = item.getElementsByTagName('input');
@@ -119,13 +123,22 @@
             
             if (!selectRaioId) {
                 // 提示选择完全
-                console.log('没有选择完全');
-                
+                selectAll = false;
+
                 return;
             } else {
                 winTeamArr.push(selectRaioId);
             }
         });
+
+        if (!selectAll) {
+            SLIDE_NEXT = false;
+            alert("请选择完全");
+            
+            return;
+        } else {
+            SLIDE_NEXT = true;
+        }
 
         console.log('全部选择完全');
         // 第一轮选择结束记录组 id 到顶层变量
@@ -139,6 +152,7 @@
     function filterList(container) {
         let formArr = container.getElementsByTagName('form');
         let winTeamArr = [];
+        let selectAll = true;
 
         [].forEach.call(formArr, (item, index) => {
             let inputArr = item.getElementsByTagName('input');
@@ -152,7 +166,7 @@
             
             if (!selectRaioId) {
                 // 提示选择完全
-                console.log('没有选择完全');
+                selectAll = false;
                 
                 return;
             } else {
@@ -160,8 +174,15 @@
             }
         });
 
-        console.log('全部选择完全');
+        if (!selectAll) {
+            SLIDE_NEXT = false;
+            alert("请选择完整");
+            
+            return;
+        }
 
+        SLIDE_NEXT = true;
+        
         if (winTeamArr.length > 1) {
             return winTeamArr;
         } else {
@@ -176,6 +197,7 @@
         let teamObjArr = [];
         let tplArr = [];
         let tplStr = '';
+        let selectAll = true;
 
         tplType = tplType || 'two';
 
@@ -194,9 +216,19 @@
             if (flag) {
                 return obj;
             } else {
-                console.log('没有选完全');
+                selectAll = false;
             }
         });
+
+        if (!selectAll) {
+            SLIDE_NEXT = false;
+
+            alert("请选择完全");
+
+            return;
+        } else {
+            SLIDE_NEXT = true;
+        }
 
         // 渲染
         while (teamObjArr.length > 0) {
@@ -480,10 +512,12 @@
     oneBtn.addEventListener("click", function () {
         getOneList();
         
-        sliderContainer.setAttribute("style", `
-            -webkit-transform: translateX(-20rem);
-            transform: translateX(-20rem);
-        `);
+        if (SLIDE_NEXT) {
+            sliderContainer.setAttribute("style", `
+                -webkit-transform: translateX(-20rem);
+                transform: translateX(-20rem);
+            `);
+        }
     });
 
     // 02 btn
@@ -491,10 +525,12 @@
         roundTwoArr = filterList(document.getElementById("list-two"));
         generateData(roundTwoArr, document.getElementById("list-thr"), 'two');
         
-        sliderContainer.setAttribute("style", `
-            -webkit-transform: translateX(-30rem);
-            transform: translateX(-30rem);
-        `);
+        if (SLIDE_NEXT) {
+            sliderContainer.setAttribute("style", `
+                -webkit-transform: translateX(-30rem);
+                transform: translateX(-30rem);
+            `);
+        }
     });
 
     // 03 btn
@@ -502,10 +538,12 @@
         roundThrArr = filterList(document.getElementById("list-thr"));
         generateData(roundThrArr, document.getElementById("list-fur"), 'fur');
         
-        sliderContainer.setAttribute("style", `
-            -webkit-transform: translateX(-40rem);
-            transform: translateX(-40rem);
-        `);
+        if (SLIDE_NEXT) {
+             sliderContainer.setAttribute("style", `
+                -webkit-transform: translateX(-40rem);
+                transform: translateX(-40rem);
+            `);
+        }
     });
 
     // 04 btn
@@ -513,22 +551,27 @@
         roundFurArr = filterList(document.getElementById("list-fur"));
         generateData(roundFurArr, document.getElementById("list-final"), 'final');
 
-        sliderContainer.setAttribute("style", `
-            -webkit-transform: translateX(-50rem);
-            transform: translateX(-50rem);
-        `);
+        if (SLIDE_NEXT) {
+             sliderContainer.setAttribute("style", `
+                -webkit-transform: translateX(-50rem);
+                transform: translateX(-50rem);
+            `);
+        }
     });
 
     // 05 btn
     finalBtn.addEventListener("click", function () {
+        // TODO 这里没选就变成傻逼了
         global.getImg();
         
-        setTimeout(() => {
-            sliderContainer.setAttribute("style", `
-                -webkit-transform: translateX(-70rem);
-                transform: translateX(-70rem);
-            `);
-        }, 500);
+        if (SLIDE_NEXT) {
+            setTimeout(() => {
+                sliderContainer.setAttribute("style", `
+                    -webkit-transform: translateX(-70rem);
+                    transform: translateX(-70rem);
+                `);
+            }, 500);
+        }
     });
 
     // 导出到全局
@@ -550,6 +593,4 @@
         generateGuess();
         generateImage(document.getElementById("share"), document.getElementById("result"));
     };
-
-    // setTimeout(getImg, 1000);
 })(window);
