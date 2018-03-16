@@ -1,6 +1,8 @@
 * {
     margin :0;
     padding: 0;
+    -webkit-overflow-scrolling: touch;
+    -webkit-tap-highlight-color: transparent
 }
 html, body {
     width: 10rem;
@@ -14,7 +16,7 @@ input[type="radio"] {
     height: 0;
     display: inline-block;
     opacity: 0;
-    position: absolute;
+    // position: absolute;
 }
 // 选中 radio 后的 label
 input:checked + label > .one-img,
@@ -36,7 +38,7 @@ input:checked + label > .final-img {
     margin-left: 0;
     
     // 开发的时候暂时注释掉
-    // overflow: hidden;
+    overflow: hidden;
 }
 
 // 左右滑动的 slide 定高定宽
@@ -45,16 +47,17 @@ input:checked + label > .final-img {
         width: 90rem;
         height: 100%;
 
-        // transform: translateX(-70rem);
+        transform: translateX(0);
+        transition: transform 1s;
     }
 
     // 每栏元素 item 定稿定宽
     &-items {
         width: 10rem;
         height: 100%;
+        float: left;
         overflow-y: scroll;
         overflow-x: hidden;
-        float: left;
     }
 }
 
@@ -141,6 +144,7 @@ input:checked + label > .final-img {
     height: 100%;
     min-height: 16rem;
     padding-top: 0.4rem;
+    overflow: hidden;
 
     &-header {
         margin: 0 auto;
@@ -196,6 +200,16 @@ input:checked + label > .final-img {
         border: 2px solid #fadeb5;
         border-radius: 50%;
         margin-bottom: 0.2rem;
+    }
+
+    &-btn {
+        width: 3.13rem;
+        height: 1.16rem;
+        margin: 0 auto;
+        margin-top: 1rem;
+        background-image: url('../imgs/confirm.png');
+        background-size: cover;
+        background-repeat: no-repeat;
     }
     
     p {
@@ -256,6 +270,7 @@ input:checked + label > .final-img {
         background-repeat: no-repeat;
         background-position: center;
     }
+
     &-label {
         box-sizing: border-box;
         display: inline-flex;
@@ -271,6 +286,16 @@ input:checked + label > .final-img {
         &_right {
             justify-content: flex-end;
         }
+    }
+
+    &-btn {
+        width: 3.13rem;
+        height: 1.16rem;
+        margin: 0 auto;
+        margin-top: 1rem;
+        background-image: url('../imgs/confirm.png');
+        background-size: cover;
+        background-repeat: no-repeat;
     }
 }
 
@@ -304,6 +329,16 @@ input:checked + label > .final-img {
         height: 2rem;
         border: 1px solid #ccc;
         font-size: 0.2rem;
+    }
+
+    &-btn {
+        width: 3.13rem;
+        height: 1.16rem;
+        margin: 0 auto;
+        margin-top: 1rem;
+        background-image: url('../imgs/confirm.png');
+        background-size: cover;
+        background-repeat: no-repeat;
     }
 }
 
@@ -361,6 +396,16 @@ input:checked + label > .final-img {
         height: 3.6rem;
         font-size: 0.15rem;
     }
+
+    &-btn {
+        width: 3.13rem;
+        height: 1.16rem;
+        margin: 0 auto;
+        margin-top: 1rem;
+        background-image: url('../imgs/confirm.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
 }
 
 // =========================================================
@@ -417,6 +462,16 @@ input:checked + label > .final-img {
         width: 2.8rem;
         height: 3.74rem;
         font-size: 0.2rem;
+    }
+
+    &-btn {
+        width: 3.13rem;
+        height: 1.16rem;
+        margin: 0 auto;
+        margin-top: 1rem;
+        background-image: url('../imgs/confirm.png');
+        background-size: cover;
+        background-repeat: no-repeat;
     }
 }
 

@@ -17,6 +17,13 @@
     var roundFurArr = [];
     // 冠军
     var winner = '';
+    var sliderContainer = document.getElementById("slide-container");
+    var homeBtn = document.getElementById("home-btn");
+    var oneBtn = document.getElementById("one-btn");
+    var twoBtn = document.getElementById("two-btn");
+    var thrBtn = document.getElementById("thr-btn");
+    var furBtn = document.getElementById("fur-btn");
+    var finalBtn = document.getElementById("final-btn");
 
     // 生成小组赛数据、所有队伍信息、分组信息。渲染小组赛选项
     // 小组赛的赛制和后面几轮有区别，单独写一个函数
@@ -361,6 +368,51 @@
 
     // 执行首次生成数据
     initData();
+
+    // 首页 btn
+    homeBtn.addEventListener("click", function () {
+        sliderContainer.setAttribute("style", '\n            -webkit-transform: translateX(-10rem);\n            transform: translateX(-10rem);\n        ');
+    });
+
+    // 01 btn
+    oneBtn.addEventListener("click", function () {
+        getOneList();
+
+        sliderContainer.setAttribute("style", '\n            -webkit-transform: translateX(-20rem);\n            transform: translateX(-20rem);\n        ');
+    });
+
+    // 02 btn
+    twoBtn.addEventListener("click", function () {
+        roundTwoArr = filterList(document.getElementById("list-two"));
+        generateData(roundTwoArr, document.getElementById("list-thr"), 'two');
+
+        sliderContainer.setAttribute("style", '\n            -webkit-transform: translateX(-30rem);\n            transform: translateX(-30rem);\n        ');
+    });
+
+    // 03 btn
+    thrBtn.addEventListener("click", function () {
+        roundThrArr = filterList(document.getElementById("list-thr"));
+        generateData(roundThrArr, document.getElementById("list-fur"), 'fur');
+
+        sliderContainer.setAttribute("style", '\n            -webkit-transform: translateX(-40rem);\n            transform: translateX(-40rem);\n        ');
+    });
+
+    // 04 btn
+    furBtn.addEventListener("click", function () {
+        roundFurArr = filterList(document.getElementById("list-fur"));
+        generateData(roundFurArr, document.getElementById("list-final"), 'final');
+
+        sliderContainer.setAttribute("style", '\n            -webkit-transform: translateX(-50rem);\n            transform: translateX(-50rem);\n        ');
+    });
+
+    // 05 btn
+    finalBtn.addEventListener("click", function () {
+        global.getImg();
+
+        setTimeout(function () {
+            sliderContainer.setAttribute("style", '\n                -webkit-transform: translateX(-70rem);\n                transform: translateX(-70rem);\n            ');
+        }, 500);
+    });
 
     // 导出到全局
     global.getOneList = getOneList;
