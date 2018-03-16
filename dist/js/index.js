@@ -202,7 +202,7 @@
         var twoLeft = document.getElementById("share-two_left");
         var twoRight = document.getElementById("share-two_right");
         var oneLeft = document.getElementById("share-one_left");
-        var oneRight = document.getElementById("hare-one_right");
+        var oneRight = document.getElementById("share-one_right");
         var winnerElement = document.getElementById("share-winner");
 
         var eightLeftStr = '';
@@ -240,7 +240,7 @@
 
             eightRightStr += '\n                <div class="eight-item">\n                    <div class="eight-item_img">' + _item.val + '</div>\n                    <div class="eight-item_name">' + _item.name + '</div>\n                </div>\n            ';
         }
-        eightRightStr.innerHTML = eightRightStr;
+        eightRight.innerHTML = eightRightStr;
 
         // 左边 4
         for (var _i2 = 0; _i2 < 4; _i2++) {
@@ -283,7 +283,7 @@
                 }
             }
 
-            twoRightStr += '\n                <div class="two-item">\n                    <div class="two-item_img">' + _item4.val + '</div>\n                </div>\n            ';
+            twoLeftStr += '\n                <div class="two-item">\n                    <div class="two-item_img">' + _item4.val + '</div>\n                </div>\n            ';
         }
         twoLeft.innerHTML = twoLeftStr;
 
@@ -313,9 +313,8 @@
                 }
             }
 
-            oneRightStr += '' + _item6.val;
+            oneLeft.innerHTML = '' + _item6.val;
         }
-        oneRight.innerHTML = oneRightStr;
 
         // 右边 1
         for (var _i7 = 0; _i7 < 1; _i7++) {
@@ -328,9 +327,8 @@
                 }
             }
 
-            oneRightStr += '' + _item7.val;
+            oneRight.innerHTML = '' + _item7.val;
         }
-        oneRight.innerHTML = oneRightStr;
 
         // 冠军
         for (var _i8 = 0; _i8 < 1; _i8++) {
@@ -380,6 +378,7 @@
     };
     global.getImg = function () {
         winner = filterList(document.getElementById("list-final"));
+        generateGuess();
         generateImage(document.getElementById("share"), document.getElementById("result"));
     };
 

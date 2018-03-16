@@ -274,7 +274,7 @@
         let twoLeft = document.getElementById("share-two_left");
         let twoRight = document.getElementById("share-two_right");
         let oneLeft = document.getElementById("share-one_left");
-        let oneRight = document.getElementById("hare-one_right");
+        let oneRight = document.getElementById("share-one_right");
         let winnerElement = document.getElementById("share-winner");
 
         let eightLeftStr = '';
@@ -322,7 +322,7 @@
                 </div>
             `;
         }
-        eightRightStr.innerHTML = eightRightStr;
+        eightRight.innerHTML = eightRightStr;
 
         // 左边 4
         for (let i = 0; i < 4; i++) {
@@ -373,7 +373,7 @@
                 }
             }
 
-            twoRightStr += `
+            twoLeftStr += `
                 <div class="two-item">
                     <div class="two-item_img">${item.val}</div>
                 </div>
@@ -411,9 +411,9 @@
                 }
             }
 
-            oneRightStr += `${item.val}`;
+            oneLeft.innerHTML = `${item.val}`;
         }
-        oneRight.innerHTML = oneRightStr;
+        
 
         // 右边 1
         for (let i = 0; i < 1; i++) {
@@ -426,9 +426,8 @@
                 }
             }
 
-            oneRightStr += `${item.val}`;
+            oneRight.innerHTML = `${item.val}`;
         }
-        oneRight.innerHTML = oneRightStr;
 
         // 冠军
         for (let i = 0; i < 1; i++) {
@@ -478,6 +477,7 @@
     };
     global.getImg = function() {
         winner = filterList(document.getElementById("list-final"));
+        generateGuess();
         generateImage(document.getElementById("share"), document.getElementById("result"));
     };
 
