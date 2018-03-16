@@ -155,7 +155,11 @@
 
         console.log('全部选择完全');
 
-        return winTeamArr;
+        if (winTeamArr.length > 1) {
+            return winTeamArr;
+        } else {
+            return winTeamArr[0];
+        }
     }
 
     // 从剩 16 支队伍开始，使用生成函数，根据队生成选项，并渲染
@@ -259,13 +263,197 @@
         tplStr = tplArr.join('\n');
         element.innerHTML = tplStr;
     }
-    
+
+    // 根绝竞猜结果生成排列
+    function generateGuess() {
+        let share = document.getElementById("share");
+        let eightLeft = document.getElementById("share-eight_left");
+        let eightRight = document.getElementById("share-eight_right");
+        let fourLeft = document.getElementById("share-four_left");
+        let fourRight = document.getElementById("share-four_right");
+        let twoLeft = document.getElementById("share-two_left");
+        let twoRight = document.getElementById("share-two_right");
+        let oneLeft = document.getElementById("share-one_left");
+        let oneRight = document.getElementById("hare-one_right");
+        let winnerElement = document.getElementById("share-winner");
+
+        let eightLeftStr = '';
+        let eightRightStr = '';
+        let fourLeftStr = '';
+        let fourRightStr = '';
+        let twoLeftStr = '';
+        let twoRightStr = '';
+
+        // 左边 8
+        for (let i = 0; i < 8; i++) {
+            let id = roundOneArr.shift();
+            let item = '';
+
+            for (let key in teamPoolObj) {
+                if (key == id) {
+                    item = teamPoolObj[key];
+                }
+            }
+
+            eightLeftStr += `
+                <div class="eight-item">
+                    <div class="eight-item_img">${item.val}</div>
+                    <div class="eight-item_name">${item.name}</div>
+                </div>
+            `;
+        }
+        eightLeft.innerHTML = eightLeftStr;
+
+        // 右边 8
+        for (let i = 0; i < 8; i++) {
+            let id = roundOneArr.shift();
+            let item = '';
+
+            for (let key in teamPoolObj) {
+                if (key == id) {
+                    item = teamPoolObj[key];
+                }
+            }
+
+            eightRightStr += `
+                <div class="eight-item">
+                    <div class="eight-item_img">${item.val}</div>
+                    <div class="eight-item_name">${item.name}</div>
+                </div>
+            `;
+        }
+        eightRightStr.innerHTML = eightRightStr;
+
+        // 左边 4
+        for (let i = 0; i < 4; i++) {
+            let id = roundTwoArr.shift();
+            let item = '';
+
+            for (let key in teamPoolObj) {
+                if (key == id) {
+                    item = teamPoolObj[key];
+                }
+            }
+
+            fourLeftStr += `
+                <div class="four-item">
+                    <div class="four-item_img">${item.val}</div>
+                </div>
+            `;
+        }
+        fourLeft.innerHTML = fourLeftStr;
+
+        // 右边 4
+        for (let i = 0; i < 4; i++) {
+            let id = roundTwoArr.shift();
+            let item = '';
+
+            for (let key in teamPoolObj) {
+                if (key == id) {
+                    item = teamPoolObj[key];
+                }
+            }
+
+            fourRightStr += `
+                <div class="four-item">
+                    <div class="four-item_img">${item.val}</div>
+                </div>
+            `;
+        }
+        fourRight.innerHTML = fourRightStr;
+
+        // 左边 2
+        for (let i = 0; i < 2; i++) {
+            let id = roundThrArr.shift();
+            let item = '';
+
+            for (let key in teamPoolObj) {
+                if (key == id) {
+                    item = teamPoolObj[key];
+                }
+            }
+
+            twoRightStr += `
+                <div class="two-item">
+                    <div class="two-item_img">${item.val}</div>
+                </div>
+            `;
+        }
+        twoLeft.innerHTML = twoLeftStr;
+
+        // 右边 2
+        for (let i = 0; i < 2; i++) {
+            let id = roundThrArr.shift();
+            let item = '';
+
+            for (let key in teamPoolObj) {
+                if (key == id) {
+                    item = teamPoolObj[key];
+                }
+            }
+
+            twoRightStr += `
+                <div class="two-item">
+                    <div class="two-item_img">${item.val}</div>
+                </div>
+            `;
+        }
+        twoRight.innerHTML = twoRightStr;
+
+        // 左边 1
+        for (let i = 0; i < 1; i++) {
+            let id = roundFurArr.shift();
+            let item = '';
+
+            for (let key in teamPoolObj) {
+                if (key == id) {
+                    item = teamPoolObj[key];
+                }
+            }
+
+            oneRightStr += `${item.val}`;
+        }
+        oneRight.innerHTML = oneRightStr;
+
+        // 右边 1
+        for (let i = 0; i < 1; i++) {
+            let id = roundFurArr.shift();
+            let item = '';
+
+            for (let key in teamPoolObj) {
+                if (key == id) {
+                    item = teamPoolObj[key];
+                }
+            }
+
+            oneRightStr += `${item.val}`;
+        }
+        oneRight.innerHTML = oneRightStr;
+
+        // 冠军
+        for (let i = 0; i < 1; i++) {
+            let id = winner;
+            let item = '';
+
+            for (let key in teamPoolObj) {
+                if (key == id) {
+                    item = teamPoolObj[key];
+                }
+            }
+
+            winnerElement.innerHTML = `${item.val}`;
+        }
+    }
+
     // 生成图片，需要调整一下样式
     function generateImage(src, target) {
         global.html2canvas(src).then(canvas => {
-            // TODO 二维码单独用 drawImage 画上去
             let image = new Image();
-            
+            let qrcode = document.querySelector("#qrcode");
+
+            // html2canvas 对文字和 img 标签的图片做了特殊处理
+            // 使用 img 标签会比使用 background-img 更清晰
+            image.className = "result-img";
             image.src = canvas.toDataURL("image/png");
             target.appendChild(image);
         });
@@ -279,18 +467,19 @@
     global.eightFour = function() {
         roundTwoArr = filterList(document.getElementById("list-two"));
         generateData(roundTwoArr, document.getElementById("list-thr"), 'two');
-    }
+    };
     global.fourTwo = function() {
         roundThrArr = filterList(document.getElementById("list-thr"));
         generateData(roundThrArr, document.getElementById("list-fur"), 'fur');
-    }
+    };
     global.twoOne = function() {
         roundFurArr = filterList(document.getElementById("list-fur"));
         generateData(roundFurArr, document.getElementById("list-final"), 'final');
-    }
+    };
     global.getImg = function() {
-        generateImage(document.getElementById("one"), document.getElementById("result"));
-    }
+        winner = filterList(document.getElementById("list-final"));
+        generateImage(document.getElementById("share"), document.getElementById("result"));
+    };
 
     // setTimeout(getImg, 1000);
 })(window);
