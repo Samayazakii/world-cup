@@ -1,22 +1,24 @@
+// TODO 弱网环境下的体验 需要修改一下
+
 (function (global) {
     // nameObj 存放学校名字，图片通过命名规范动态填入
     let nameArr = [
-        { group: 'A', teams: ['东北财经大学范德萨范德萨', '大学', '大学'] },
-        { group: 'B', teams: ['大学', '大学', '大学'] },
-        { group: 'C', teams: ['大学', '大学', '大学'] },
-        { group: 'D', teams: ['大学', '大学', '大学'] },
-        { group: 'E', teams: ['大学', '大学', '大学'] },
-        { group: 'F', teams: ['大学', '大学', '大学'] },
-        { group: 'G', teams: ['大学', '大学', '大学'] },
-        { group: 'H', teams: ['大学', '大学', '大学'] },
-        { group: 'I', teams: ['大学', '大学', '大学'] },
-        { group: 'J', teams: ['大学', '大学', '大学'] },
-        { group: 'K', teams: ['大学', '大学', '大学'] },
-        { group: 'L', teams: ['大学', '大学', '大学'] },
-        { group: 'M', teams: ['大学', '大学', '大学'] },
-        { group: 'N', teams: ['大学', '大学', '大学'] },
-        { group: 'O', teams: ['大学', '大学', '大学'] },
-        { group: 'P', teams: ['大学', '大学', '大学'] },
+        { group: 'A', teams: ['新加坡国立大学', '重庆大学', '西安交通大学'] },
+        { group: 'B', teams: ['桂林电子科技大学', '香港中文大学', '华北水利水电大学'] },
+        { group: 'C', teams: ['合肥赛区冠军', '墨尔本大学', '内蒙古科技大学'] },
+        { group: 'D', teams: ['西安外国语大学', '哈佛大学&耶鲁大学', '福建江夏学院'] },
+        { group: 'E', teams: ['哈尔滨工程大学', '山西财经大学', '华威大学'] },
+        { group: 'F', teams: ['国际关系学院', '海南大学', '吉林农业大学'] },
+        { group: 'G', teams: ['中山大学', '河北大学', '世新大学'] },
+        { group: 'H', teams: ['国防科技大学', '华侨大学', '艾因夏姆斯大学'] },
+        { group: 'I', teams: ['东北大学', '吉林财经大学', '东吴大学'] },
+        { group: 'J', teams: ['兰州理工大学', '云南大学', '北京师范大学'] },
+        { group: 'K', teams: ['中国人民大学', '澳门城市大学', '山东建筑大学'] },
+        { group: 'L', teams: ['浙江理工大学', '北京师范大学珠海分校', '马来亚大学'] },
+        { group: 'M', teams: ['中国民航大学', '爱丁堡大学', '武汉理工大学'] },
+        { group: 'N', teams: ['四川大学', '待定大学', '清华大学'] },
+        { group: 'O', teams: ['江西财经大学', '南开大学', '新南威尔士大学'] },
+        { group: 'P', teams: ['东北财经大学', '加拿大联队', '哈尔滨工业大学（威海）'] },
     ];
     // teamArr 首次渲染数据之前生成，用于读取队伍信息，小组赛筛选
     let teamArr = [];
@@ -57,17 +59,17 @@
                 group: item.group,
                 team: item.teams.map((_it, _in) => {
                     let obj = {
-                        team: `${item.group}-${_in}-${_it}`,
+                        team: `${_it}`,
                         val: `${item.group}-${_in}`, 
-                        img: `${item.group}-${_in}.png`,
-                        select: false
+                        img: `${item.group}-${_in + 1}.png`
                     };
                     
                     // 元素拼接
+                    // 现实的分组是从一开始的，数组元素是从 0 开始，有区别
                     _radioArr.push(`
                         <input type="radio" name="${item.group}-48" id="${item.group}-${_in}" value="${item.group}-${_in}">
                         <label for="${item.group}-${_in}" class="one-label">
-                            <div class="one-img"></div>
+                            <div class="one-img" style="background-image: url('../imgs/school/${item.group}-${_in + 1}.png')"></div>
                             <p>${_it}</p>
                             <p>${item.group}-${_in + 1}</p>
                         </label>
@@ -81,9 +83,10 @@
 
             _radioStr = _radioArr.join('\n');
             
+            // 每个组头部的分界部分
             radioArr.push(`<div class="one-list_group">
                     <div class="one-list_title">
-                        <div class="one-list_img" style="background-image: url(../imgs/one-group_${item.group}.png)"></div>
+                        <div class="one-list_img" style="background-image: url('../imgs/one-group_${item.group}.png')"></div>
                     </div>
                 </div>
                 <form id="${item.group}-48" class="one-form">
@@ -235,7 +238,7 @@
             // 选出相邻的两个队
             let teamLeft = teamObjArr.shift();
             let teamRight = teamObjArr.shift();
-            let prefix = teamLeft.val[0] + teamRight.val[0]
+            let prefix = teamLeft.val[0] + teamRight.val[0];
 
             switch (tplType) {
                 case 'two':
@@ -243,14 +246,14 @@
                         <form id="${prefix}" class="two-form">
                             <input type="radio" name="${prefix}" id="${prefix}-0" value="${teamLeft.val}">
                             <label for="${prefix}-0" class="two-label two-label_left">
-                                <div class="two-img"></div>
-                                <p class="two-name two-name_left">${teamLeft.val}</p>
+                                <div class="two-img" style="background-image: url('../imgs/school/${teamLeft.img}')"></div>
+                                <p class="two-name two-name_left">${teamLeft.team}</p>
                             </label>
                         
                             <input type="radio" name="${prefix}" id="${prefix}-1" value="${teamRight.val}">
                             <label for="${prefix}-1" class="two-label two-label_right">
-                                <p class="two-name two-name_right">${teamRight.val}</p>
-                                <div class="two-img"></div>
+                                <p class="two-name two-name_right">${teamRight.team}</p>
+                                <div class="two-img" style="background-image: url('../imgs/school/${teamRight.img}')"></div>
                             </label>
                         </form>
                     `);
@@ -262,14 +265,14 @@
                         <form id="${prefix}" class="fur-form">
                             <input type="radio" name="${prefix}" id="${prefix}-0" value="${teamLeft.val}">
                             <label for="${prefix}-0" class="fur-label">
-                                <div class="fur-img"></div>
-                                <p class="fur-name">${teamLeft.val}</p>
+                                <div class="fur-img" style="background-image: url('../imgs/school/${teamLeft.img}')"></div>
+                                <p class="fur-name">${teamLeft.team}</p>
                             </label>
                         
                             <input type="radio" name="${prefix}" id="${prefix}-1" value="${teamRight.val}">
                             <label for="${prefix}-1" class="fur-label">
-                                <div class="fur-img"></div>
-                                <p class="fur-name">${teamRight.val}</p>
+                                <div class="fur-img" style="background-image: url('../imgs/school/${teamRight.img}')"></div>
+                                <p class="fur-name">${teamRight.team}</p>
                             </label>
                         </form>
                     `);
@@ -281,14 +284,14 @@
                         <form id="${prefix}" class="final-form">
                             <input type="radio" name="${prefix}" id="${prefix}-0" value="${teamLeft.val}">
                             <label for="${prefix}-0" class="final-label">
-                                <div class="final-img"></div>
-                                <p class="final-name">${teamLeft.val}</p>
+                                <div class="final-img" style="background-image: url('../imgs/school/${teamLeft.img}')"></div>
+                                <p class="final-name">${teamLeft.team}</p>
                             </label>
                         
                             <input type="radio" name="${prefix}" id="${prefix}-1" value="${teamRight.val}">
                             <label for="${prefix}-1" class="final-label">
-                                <div class="final-img"></div>
-                                <p class="final-name">${teamRight.val}</p>
+                                <div class="final-img" style="background-image: url('../imgs/school/${teamRight.img}')"></div>
+                                <p class="final-name">${teamRight.team}</p>
                             </label>
                         </form>
                     `);
@@ -327,6 +330,7 @@
         for (let i = 0; i < 8; i++) {
             let id = roundOneArr.shift();
             let item = '';
+            let shortName = '';
 
             for (let key in teamPoolObj) {
                 if (key == id) {
@@ -334,10 +338,18 @@
                 }
             }
 
+            // html2canvas 不能处理 text-overflow
+            if (item.team.length > 8) {
+                shortName = item.team.slice(0, 8);
+                shortName += '...';
+            } else {
+                shortName = item.team;
+            }
+
             eightLeftStr += `
                 <div class="eight-item">
-                    <div class="eight-item_img">${item.val}</div>
-                    <div class="eight-item_name">${item.name}</div>
+                    <img class="eight-item_img" src="../imgs/school/${item.img}" />
+                    <div class="eight-item_name">${shortName}</div>
                 </div>
             `;
         }
@@ -347,6 +359,7 @@
         for (let i = 0; i < 8; i++) {
             let id = roundOneArr.shift();
             let item = '';
+            let shortName = '';
 
             for (let key in teamPoolObj) {
                 if (key == id) {
@@ -354,10 +367,17 @@
                 }
             }
 
+            if (item.team.length > 8) {
+                shortName = item.team.slice(0, 8);
+                shortName += '...';
+            } else {
+                shortName = item.team;
+            }
+
             eightRightStr += `
                 <div class="eight-item">
-                    <div class="eight-item_img">${item.val}</div>
-                    <div class="eight-item_name">${item.name}</div>
+                    <img class="eight-item_img" src="../imgs/school/${item.img}" />
+                    <div class="eight-item_name">${shortName}</div>
                 </div>
             `;
         }
@@ -376,7 +396,7 @@
 
             fourLeftStr += `
                 <div class="four-item">
-                    <div class="four-item_img">${item.val}</div>
+                    <img class="four-item_img" src="../imgs/school/${item.img}" />
                 </div>
             `;
         }
@@ -395,7 +415,7 @@
 
             fourRightStr += `
                 <div class="four-item">
-                    <div class="four-item_img">${item.val}</div>
+                    <img class="four-item_img" src="../imgs/school/${item.img}" />
                 </div>
             `;
         }
@@ -414,7 +434,7 @@
 
             twoLeftStr += `
                 <div class="two-item">
-                    <div class="two-item_img">${item.val}</div>
+                    <img class="two-item_img" src="../imgs/school/${item.img}" />
                 </div>
             `;
         }
@@ -433,7 +453,7 @@
 
             twoRightStr += `
                 <div class="two-item">
-                    <div class="two-item_img">${item.val}</div>
+                    <img class="two-item_img" src="../imgs/school/${item.img}" />
                 </div>
             `;
         }
@@ -450,7 +470,7 @@
                 }
             }
 
-            oneLeft.innerHTML = `${item.val}`;
+            oneLeft.setAttribute('src', `../imgs/school/${item.img}`);
         }
         
 
@@ -465,7 +485,7 @@
                 }
             }
 
-            oneRight.innerHTML = `${item.val}`;
+            oneRight.setAttribute('src', `../imgs/school/${item.img}`);
         }
 
         // 冠军
@@ -479,7 +499,7 @@
                 }
             }
 
-            winnerElement.innerHTML = `${item.val}`;
+            winnerElement.setAttribute('src', `../imgs/school/${item.img}`);
         }
     }
 
@@ -575,19 +595,19 @@
     });
 
     // 导出到全局
-    global.getOneList = getOneList;
-    global.eightFour = function() {
-        roundTwoArr = filterList(document.getElementById("list-two"));
-        generateData(roundTwoArr, document.getElementById("list-thr"), 'two');
-    };
-    global.fourTwo = function() {
-        roundThrArr = filterList(document.getElementById("list-thr"));
-        generateData(roundThrArr, document.getElementById("list-fur"), 'fur');
-    };
-    global.twoOne = function() {
-        roundFurArr = filterList(document.getElementById("list-fur"));
-        generateData(roundFurArr, document.getElementById("list-final"), 'final');
-    };
+    // global.getOneList = getOneList;
+    // global.eightFour = function() {
+    //     roundTwoArr = filterList(document.getElementById("list-two"));
+    //     generateData(roundTwoArr, document.getElementById("list-thr"), 'two');
+    // };
+    // global.fourTwo = function() {
+    //     roundThrArr = filterList(document.getElementById("list-thr"));
+    //     generateData(roundThrArr, document.getElementById("list-fur"), 'fur');
+    // };
+    // global.twoOne = function() {
+    //     roundFurArr = filterList(document.getElementById("list-fur"));
+    //     generateData(roundFurArr, document.getElementById("list-final"), 'final');
+    // };
     global.getImg = function() {
         winner = filterList(document.getElementById("list-final"));
         generateGuess();

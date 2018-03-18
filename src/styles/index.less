@@ -7,7 +7,6 @@
 html, body {
     width: 10rem;
     height: 100%;
-    // 调试用
     overflow-y: hidden;
     font-family: Arial, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
 }
@@ -221,6 +220,8 @@ input:checked + label > .final-img {
         border: 2px solid #fadeb5;
         border-radius: 50%;
         margin-bottom: 0.2rem;
+        background-size: cover;
+        background-repeat: no-repeat;
     }
 
     &-btn {
@@ -254,6 +255,8 @@ input:checked + label > .final-img {
         height: 1rem;
         border: 2px solid #fadeb5;
         border-radius: 50%;
+        background-size: cover;
+        background-repeat: no-repeat;
     }
 
     &-name {
@@ -389,6 +392,8 @@ input:checked + label > .final-img {
         height: 2.6rem;
         border: 2px solid #fadeb5;
         border-radius: 50%;
+        background-size: cover;
+        background-repeat: no-repeat;
     }
 
     &-name {
@@ -455,6 +460,8 @@ input:checked + label > .final-img {
         height: 2.8rem;
         border: 2px solid #fadeb5;
         border-radius: 50%;
+        background-size: cover;
+        background-repeat: no-repeat;
     }
 
     &-name {
@@ -519,8 +526,8 @@ input:checked + label > .final-img {
             margin: 0 auto;
             width: 0.72rem;
             height: 0.72rem;
-            background-color: #ccc;
             border-radius: 50%;
+            display: block;
         }
         &_name {
             padding: 0.1rem;
@@ -535,11 +542,13 @@ input:checked + label > .final-img {
             position: absolute;
             top: 3.53rem;
             left: 0;
+            text-align: center;
         }
         &_right {
             position: absolute;
             top: 3.53rem;
             right: -0.01rem;
+            text-align: center;
         }
     }
 
@@ -551,8 +560,8 @@ input:checked + label > .final-img {
             margin: 0 auto;
             width: 0.72rem;
             height: 0.72rem;
-            background-color: #ccc;
             border-radius: 50%;
+            
         }
     }
     &-four {
@@ -576,8 +585,8 @@ input:checked + label > .final-img {
             margin: 0 auto;
             width: 0.72rem;
             height: 0.72rem;
-            background-color: #ccc;
             border-radius: 50%;
+            
         }
     }
     &-two {
@@ -599,7 +608,6 @@ input:checked + label > .final-img {
         height: 0.72rem;
         top: 7.87rem;
         left: 3.72rem;
-        background-color: #ccc;
         border-radius: 50%;
     }
 
@@ -609,7 +617,6 @@ input:checked + label > .final-img {
         height: 0.72rem;
         top: 7.87rem;
         right: 3.71rem;
-        background-color: #ccc;
         border-radius: 50%;
     }
 
@@ -619,7 +626,6 @@ input:checked + label > .final-img {
         height: 0.88rem;
         top: 6.78rem;
         left: 4.56rem;
-        background-color: #ccc;
         border-radius: 50%;
     }
 }

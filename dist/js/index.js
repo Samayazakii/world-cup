@@ -1,8 +1,10 @@
 'use strict';
 
+// TODO 弱网环境下的体验 需要修改一下
+
 (function (global) {
     // nameObj 存放学校名字，图片通过命名规范动态填入
-    var nameArr = [{ group: 'A', teams: ['东北财经大学范德萨范德萨', '大学', '大学'] }, { group: 'B', teams: ['大学', '大学', '大学'] }, { group: 'C', teams: ['大学', '大学', '大学'] }, { group: 'D', teams: ['大学', '大学', '大学'] }, { group: 'E', teams: ['大学', '大学', '大学'] }, { group: 'F', teams: ['大学', '大学', '大学'] }, { group: 'G', teams: ['大学', '大学', '大学'] }, { group: 'H', teams: ['大学', '大学', '大学'] }, { group: 'I', teams: ['大学', '大学', '大学'] }, { group: 'J', teams: ['大学', '大学', '大学'] }, { group: 'K', teams: ['大学', '大学', '大学'] }, { group: 'L', teams: ['大学', '大学', '大学'] }, { group: 'M', teams: ['大学', '大学', '大学'] }, { group: 'N', teams: ['大学', '大学', '大学'] }, { group: 'O', teams: ['大学', '大学', '大学'] }, { group: 'P', teams: ['大学', '大学', '大学'] }];
+    var nameArr = [{ group: 'A', teams: ['新加坡国立大学', '重庆大学', '西安交通大学'] }, { group: 'B', teams: ['桂林电子科技大学', '香港中文大学', '华北水利水电大学'] }, { group: 'C', teams: ['合肥赛区冠军', '墨尔本大学', '内蒙古科技大学'] }, { group: 'D', teams: ['西安外国语大学', '哈佛大学&耶鲁大学', '福建江夏学院'] }, { group: 'E', teams: ['哈尔滨工程大学', '山西财经大学', '华威大学'] }, { group: 'F', teams: ['国际关系学院', '海南大学', '吉林农业大学'] }, { group: 'G', teams: ['中山大学', '河北大学', '世新大学'] }, { group: 'H', teams: ['国防科技大学', '华侨大学', '艾因夏姆斯大学'] }, { group: 'I', teams: ['东北大学', '吉林财经大学', '东吴大学'] }, { group: 'J', teams: ['兰州理工大学', '云南大学', '北京师范大学'] }, { group: 'K', teams: ['中国人民大学', '澳门城市大学', '山东建筑大学'] }, { group: 'L', teams: ['浙江理工大学', '北京师范大学珠海分校', '马来亚大学'] }, { group: 'M', teams: ['中国民航大学', '爱丁堡大学', '武汉理工大学'] }, { group: 'N', teams: ['四川大学', '待定大学', '清华大学'] }, { group: 'O', teams: ['江西财经大学', '南开大学', '新南威尔士大学'] }, { group: 'P', teams: ['东北财经大学', '加拿大联队', '哈尔滨工业大学（威海）'] }];
     // teamArr 首次渲染数据之前生成，用于读取队伍信息，小组赛筛选
     var teamArr = [];
     // 筛选之前所有队伍信息，无分组
@@ -42,14 +44,14 @@
                 group: item.group,
                 team: item.teams.map(function (_it, _in) {
                     var obj = {
-                        team: item.group + '-' + _in + '-' + _it,
+                        team: '' + _it,
                         val: item.group + '-' + _in,
-                        img: item.group + '-' + _in + '.png',
-                        select: false
+                        img: item.group + '-' + (_in + 1) + '.png'
                     };
 
                     // 元素拼接
-                    _radioArr.push('\n                        <input type="radio" name="' + item.group + '-48" id="' + item.group + '-' + _in + '" value="' + item.group + '-' + _in + '">\n                        <label for="' + item.group + '-' + _in + '" class="one-label">\n                            <div class="one-img"></div>\n                            <p>' + _it + '</p>\n                            <p>' + item.group + '-' + (_in + 1) + '</p>\n                        </label>\n                    ');
+                    // 现实的分组是从一开始的，数组元素是从 0 开始，有区别
+                    _radioArr.push('\n                        <input type="radio" name="' + item.group + '-48" id="' + item.group + '-' + _in + '" value="' + item.group + '-' + _in + '">\n                        <label for="' + item.group + '-' + _in + '" class="one-label">\n                            <div class="one-img" style="background-image: url(\'../imgs/school/' + item.group + '-' + (_in + 1) + '.png\')"></div>\n                            <p>' + _it + '</p>\n                            <p>' + item.group + '-' + (_in + 1) + '</p>\n                        </label>\n                    ');
 
                     // 放入队伍池
                     teamPoolObj[item.group + '-' + _in] = obj;
@@ -59,7 +61,8 @@
 
             _radioStr = _radioArr.join('\n');
 
-            radioArr.push('<div class="one-list_group">\n                    <div class="one-list_title">\n                        <div class="one-list_img" style="background-image: url(../imgs/one-group_' + item.group + '.png)"></div>\n                    </div>\n                </div>\n                <form id="' + item.group + '-48" class="one-form">\n                    ' + _radioStr + '\n                </form>');
+            // 每个组头部的分界部分
+            radioArr.push('<div class="one-list_group">\n                    <div class="one-list_title">\n                        <div class="one-list_img" style="background-image: url(\'../imgs/one-group_' + item.group + '.png\')"></div>\n                    </div>\n                </div>\n                <form id="' + item.group + '-48" class="one-form">\n                    ' + _radioStr + '\n                </form>');
 
             return groupData;
         });
@@ -208,17 +211,17 @@
 
             switch (tplType) {
                 case 'two':
-                    tplArr.push('\n                        <form id="' + prefix + '" class="two-form">\n                            <input type="radio" name="' + prefix + '" id="' + prefix + '-0" value="' + teamLeft.val + '">\n                            <label for="' + prefix + '-0" class="two-label two-label_left">\n                                <div class="two-img"></div>\n                                <p class="two-name two-name_left">' + teamLeft.val + '</p>\n                            </label>\n                        \n                            <input type="radio" name="' + prefix + '" id="' + prefix + '-1" value="' + teamRight.val + '">\n                            <label for="' + prefix + '-1" class="two-label two-label_right">\n                                <p class="two-name two-name_right">' + teamRight.val + '</p>\n                                <div class="two-img"></div>\n                            </label>\n                        </form>\n                    ');
+                    tplArr.push('\n                        <form id="' + prefix + '" class="two-form">\n                            <input type="radio" name="' + prefix + '" id="' + prefix + '-0" value="' + teamLeft.val + '">\n                            <label for="' + prefix + '-0" class="two-label two-label_left">\n                                <div class="two-img" style="background-image: url(\'../imgs/school/' + teamLeft.img + '\')"></div>\n                                <p class="two-name two-name_left">' + teamLeft.team + '</p>\n                            </label>\n                        \n                            <input type="radio" name="' + prefix + '" id="' + prefix + '-1" value="' + teamRight.val + '">\n                            <label for="' + prefix + '-1" class="two-label two-label_right">\n                                <p class="two-name two-name_right">' + teamRight.team + '</p>\n                                <div class="two-img" style="background-image: url(\'../imgs/school/' + teamRight.img + '\')"></div>\n                            </label>\n                        </form>\n                    ');
 
                     break;
 
                 case 'fur':
-                    tplArr.push('\n                        <form id="' + prefix + '" class="fur-form">\n                            <input type="radio" name="' + prefix + '" id="' + prefix + '-0" value="' + teamLeft.val + '">\n                            <label for="' + prefix + '-0" class="fur-label">\n                                <div class="fur-img"></div>\n                                <p class="fur-name">' + teamLeft.val + '</p>\n                            </label>\n                        \n                            <input type="radio" name="' + prefix + '" id="' + prefix + '-1" value="' + teamRight.val + '">\n                            <label for="' + prefix + '-1" class="fur-label">\n                                <div class="fur-img"></div>\n                                <p class="fur-name">' + teamRight.val + '</p>\n                            </label>\n                        </form>\n                    ');
+                    tplArr.push('\n                        <form id="' + prefix + '" class="fur-form">\n                            <input type="radio" name="' + prefix + '" id="' + prefix + '-0" value="' + teamLeft.val + '">\n                            <label for="' + prefix + '-0" class="fur-label">\n                                <div class="fur-img" style="background-image: url(\'../imgs/school/' + teamLeft.img + '\')"></div>\n                                <p class="fur-name">' + teamLeft.team + '</p>\n                            </label>\n                        \n                            <input type="radio" name="' + prefix + '" id="' + prefix + '-1" value="' + teamRight.val + '">\n                            <label for="' + prefix + '-1" class="fur-label">\n                                <div class="fur-img" style="background-image: url(\'../imgs/school/' + teamRight.img + '\')"></div>\n                                <p class="fur-name">' + teamRight.team + '</p>\n                            </label>\n                        </form>\n                    ');
 
                     break;
 
                 case 'final':
-                    tplArr.push('\n                        <form id="' + prefix + '" class="final-form">\n                            <input type="radio" name="' + prefix + '" id="' + prefix + '-0" value="' + teamLeft.val + '">\n                            <label for="' + prefix + '-0" class="final-label">\n                                <div class="final-img"></div>\n                                <p class="final-name">' + teamLeft.val + '</p>\n                            </label>\n                        \n                            <input type="radio" name="' + prefix + '" id="' + prefix + '-1" value="' + teamRight.val + '">\n                            <label for="' + prefix + '-1" class="final-label">\n                                <div class="final-img"></div>\n                                <p class="final-name">' + teamRight.val + '</p>\n                            </label>\n                        </form>\n                    ');
+                    tplArr.push('\n                        <form id="' + prefix + '" class="final-form">\n                            <input type="radio" name="' + prefix + '" id="' + prefix + '-0" value="' + teamLeft.val + '">\n                            <label for="' + prefix + '-0" class="final-label">\n                                <div class="final-img" style="background-image: url(\'../imgs/school/' + teamLeft.img + '\')"></div>\n                                <p class="final-name">' + teamLeft.team + '</p>\n                            </label>\n                        \n                            <input type="radio" name="' + prefix + '" id="' + prefix + '-1" value="' + teamRight.val + '">\n                            <label for="' + prefix + '-1" class="final-label">\n                                <div class="final-img" style="background-image: url(\'../imgs/school/' + teamRight.img + '\')"></div>\n                                <p class="final-name">' + teamRight.team + '</p>\n                            </label>\n                        </form>\n                    ');
 
                     break;
 
@@ -255,6 +258,7 @@
         for (var i = 0; i < 8; i++) {
             var id = roundOneArr.shift();
             var item = '';
+            var shortName = '';
 
             for (var key in teamPoolObj) {
                 if (key == id) {
@@ -262,7 +266,15 @@
                 }
             }
 
-            eightLeftStr += '\n                <div class="eight-item">\n                    <div class="eight-item_img">' + item.val + '</div>\n                    <div class="eight-item_name">' + item.name + '</div>\n                </div>\n            ';
+            // html2canvas 不能处理 text-overflow
+            if (item.team.length > 8) {
+                shortName = item.team.slice(0, 8);
+                shortName += '...';
+            } else {
+                shortName = item.team;
+            }
+
+            eightLeftStr += '\n                <div class="eight-item">\n                    <img class="eight-item_img" src="../imgs/school/' + item.img + '" />\n                    <div class="eight-item_name">' + shortName + '</div>\n                </div>\n            ';
         }
         eightLeft.innerHTML = eightLeftStr;
 
@@ -270,6 +282,7 @@
         for (var _i = 0; _i < 8; _i++) {
             var _id = roundOneArr.shift();
             var _item = '';
+            var _shortName = '';
 
             for (var _key in teamPoolObj) {
                 if (_key == _id) {
@@ -277,7 +290,14 @@
                 }
             }
 
-            eightRightStr += '\n                <div class="eight-item">\n                    <div class="eight-item_img">' + _item.val + '</div>\n                    <div class="eight-item_name">' + _item.name + '</div>\n                </div>\n            ';
+            if (_item.team.length > 8) {
+                _shortName = _item.team.slice(0, 8);
+                _shortName += '...';
+            } else {
+                _shortName = _item.team;
+            }
+
+            eightRightStr += '\n                <div class="eight-item">\n                    <img class="eight-item_img" src="../imgs/school/' + _item.img + '" />\n                    <div class="eight-item_name">' + _shortName + '</div>\n                </div>\n            ';
         }
         eightRight.innerHTML = eightRightStr;
 
@@ -292,7 +312,7 @@
                 }
             }
 
-            fourLeftStr += '\n                <div class="four-item">\n                    <div class="four-item_img">' + _item2.val + '</div>\n                </div>\n            ';
+            fourLeftStr += '\n                <div class="four-item">\n                    <img class="four-item_img" src="../imgs/school/' + _item2.img + '" />\n                </div>\n            ';
         }
         fourLeft.innerHTML = fourLeftStr;
 
@@ -307,7 +327,7 @@
                 }
             }
 
-            fourRightStr += '\n                <div class="four-item">\n                    <div class="four-item_img">' + _item3.val + '</div>\n                </div>\n            ';
+            fourRightStr += '\n                <div class="four-item">\n                    <img class="four-item_img" src="../imgs/school/' + _item3.img + '" />\n                </div>\n            ';
         }
         fourRight.innerHTML = fourRightStr;
 
@@ -322,7 +342,7 @@
                 }
             }
 
-            twoLeftStr += '\n                <div class="two-item">\n                    <div class="two-item_img">' + _item4.val + '</div>\n                </div>\n            ';
+            twoLeftStr += '\n                <div class="two-item">\n                    <img class="two-item_img" src="../imgs/school/' + _item4.img + '" />\n                </div>\n            ';
         }
         twoLeft.innerHTML = twoLeftStr;
 
@@ -337,7 +357,7 @@
                 }
             }
 
-            twoRightStr += '\n                <div class="two-item">\n                    <div class="two-item_img">' + _item5.val + '</div>\n                </div>\n            ';
+            twoRightStr += '\n                <div class="two-item">\n                    <img class="two-item_img" src="../imgs/school/' + _item5.img + '" />\n                </div>\n            ';
         }
         twoRight.innerHTML = twoRightStr;
 
@@ -352,7 +372,7 @@
                 }
             }
 
-            oneLeft.innerHTML = '' + _item6.val;
+            oneLeft.setAttribute('src', '../imgs/school/' + _item6.img);
         }
 
         // 右边 1
@@ -366,7 +386,7 @@
                 }
             }
 
-            oneRight.innerHTML = '' + _item7.val;
+            oneRight.setAttribute('src', '../imgs/school/' + _item7.img);
         }
 
         // 冠军
@@ -380,7 +400,7 @@
                 }
             }
 
-            winnerElement.innerHTML = '' + _item8.val;
+            winnerElement.setAttribute('src', '../imgs/school/' + _item8.img);
         }
     }
 
@@ -458,19 +478,19 @@
     });
 
     // 导出到全局
-    global.getOneList = getOneList;
-    global.eightFour = function () {
-        roundTwoArr = filterList(document.getElementById("list-two"));
-        generateData(roundTwoArr, document.getElementById("list-thr"), 'two');
-    };
-    global.fourTwo = function () {
-        roundThrArr = filterList(document.getElementById("list-thr"));
-        generateData(roundThrArr, document.getElementById("list-fur"), 'fur');
-    };
-    global.twoOne = function () {
-        roundFurArr = filterList(document.getElementById("list-fur"));
-        generateData(roundFurArr, document.getElementById("list-final"), 'final');
-    };
+    // global.getOneList = getOneList;
+    // global.eightFour = function() {
+    //     roundTwoArr = filterList(document.getElementById("list-two"));
+    //     generateData(roundTwoArr, document.getElementById("list-thr"), 'two');
+    // };
+    // global.fourTwo = function() {
+    //     roundThrArr = filterList(document.getElementById("list-thr"));
+    //     generateData(roundThrArr, document.getElementById("list-fur"), 'fur');
+    // };
+    // global.twoOne = function() {
+    //     roundFurArr = filterList(document.getElementById("list-fur"));
+    //     generateData(roundFurArr, document.getElementById("list-final"), 'final');
+    // };
     global.getImg = function () {
         winner = filterList(document.getElementById("list-final"));
         generateGuess();
