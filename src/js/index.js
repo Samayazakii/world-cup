@@ -1,6 +1,9 @@
 // TODO 弱网环境下的体验 需要修改一下
-
 (function (global) {
+    global.onload = function () {
+        showToast()('close');
+    }
+
     // nameObj 存放学校名字，图片通过命名规范动态填入
     let nameArr = [
         { group: 'A', teams: ['新加坡国立大学', '重庆大学', '西安交通大学'] },
@@ -41,6 +44,9 @@
     let thrBtn = document.getElementById("thr-btn");
     let furBtn = document.getElementById("fur-btn");
     let finalBtn = document.getElementById("final-btn");
+    let reloadBtn = document.getElementById("info-reload");
+    let nextBtn = document.getElementById("info-next");
+    let showToast = global.showToast;
     
     // 是否可以翻页
     let SLIDE_NEXT = false;
@@ -136,7 +142,8 @@
 
         if (!selectAll) {
             SLIDE_NEXT = false;
-            alert("请选择完全");
+            
+            showToast()('warn');
             
             return;
         } else {
@@ -179,7 +186,7 @@
 
         if (!selectAll) {
             SLIDE_NEXT = false;
-            alert("请选择完整");
+            showToast()('warn');
             
             return;
         }
@@ -226,7 +233,7 @@
         if (!selectAll) {
             SLIDE_NEXT = false;
 
-            alert("请选择完全");
+            showToast()('warn');
 
             return;
         } else {
@@ -346,14 +353,26 @@
                 shortName = item.team;
             }
 
-            eightLeftStr += `
-                <div class="eight-item">
-                    <img class="eight-item_img" src="../imgs/school/${item.img}" />
-                    <div class="eight-item_name">${shortName}</div>
-                </div>
-            `;
+            let elem = document.createElement('div');
+            let text = document.createElement('div');
+            let img = new Image();
+
+            elem.setAttribute('class', 'eight-item');
+            text.setAttribute('class', 'eight-item_name');
+            img.setAttribute('class', 'eight-item_img');
+            text.innerText = `${shortName}`;
+            
+            img.src = `../imgs/school/${item.img}`;
+            
+            img.onload = function () {
+                console.log('=== img onload ===');
+            }
+
+            elem.appendChild(img);
+            elem.appendChild(text);
+
+            eightLeft.appendChild(elem);
         }
-        eightLeft.innerHTML = eightLeftStr;
 
         // 右边 8
         for (let i = 0; i < 8; i++) {
@@ -581,36 +600,67 @@
 
     // 05 btn
     finalBtn.addEventListener("click", function () {
-        // TODO 这里没选就变成傻逼了
+        let winnerSchool = '';
+
+        winner = filterList(document.getElementById("list-final"));
+        generateGuess();
+
+        for (let key in teamPoolObj) {
+            if (winner == key) {
+                winnerSchool = teamPoolObj[key].team;
+            }
+        }
+
+        document.getElementById("info-school").innerText = winnerSchool;
+
+        if (SLIDE_NEXT) {
+            sliderContainer.setAttribute("style", `
+               -webkit-transform: translateX(-60rem);
+               transform: translateX(-60rem);
+           `);
+       }
+    });
+
+    // reload btn
+    reloadBtn.addEventListener("click", function () {
+        window.location.reload();
+    });
+
+    // next btn
+    nextBtn.addEventListener("click", function () {
+        let winnerSchool = '';
+
+        for (let key in teamPoolObj) {
+            if (winner == key) {
+                winnerSchool = teamPoolObj[key].team;
+            }
+        }
+        
+        // 获取名字和话
+        document.getElementById("share-info_school").innerText = winnerSchool;
+        document.getElementById("share-info_word").innerText = document.getElementById("info-words").value;
+        document.getElementById("share-info_nick").innerText = document.getElementById("info-nick").value;
+        
         global.getImg();
+
+        showToast()();
         
         if (SLIDE_NEXT) {
             setTimeout(() => {
+                showToast()('close');
+                
                 sliderContainer.setAttribute("style", `
                     -webkit-transform: translateX(-70rem);
                     transform: translateX(-70rem);
                 `);
-            }, 500);
+            }, 10000);
         }
     });
 
     // 导出到全局
-    // global.getOneList = getOneList;
-    // global.eightFour = function() {
-    //     roundTwoArr = filterList(document.getElementById("list-two"));
-    //     generateData(roundTwoArr, document.getElementById("list-thr"), 'two');
-    // };
-    // global.fourTwo = function() {
-    //     roundThrArr = filterList(document.getElementById("list-thr"));
-    //     generateData(roundThrArr, document.getElementById("list-fur"), 'fur');
-    // };
-    // global.twoOne = function() {
-    //     roundFurArr = filterList(document.getElementById("list-fur"));
-    //     generateData(roundFurArr, document.getElementById("list-final"), 'final');
-    // };
     global.getImg = function() {
-        winner = filterList(document.getElementById("list-final"));
-        generateGuess();
+        // generateGuess();
         generateImage(document.getElementById("share"), document.getElementById("result"));
     };
+    global.showToast = showToast;
 })(window);

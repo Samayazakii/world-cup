@@ -263,6 +263,7 @@ input:checked + label > .final-img {
         width: 1.7rem;
         font-size: 0.27rem;
         line-height: 0.36rem;
+        color: #6b1a01;
 
         &_left {
             margin-left: 0.1rem;
@@ -333,6 +334,7 @@ input:checked + label > .final-img {
     height: 100%;
     min-height: 16rem;
     padding-top: 0.4rem;
+    color: #6b1a01;
 
     &-header {
         margin: 0 auto;
@@ -351,7 +353,6 @@ input:checked + label > .final-img {
     &-label {
         width: 2rem;
         height: 2rem;
-        border: 1px solid #ccc;
         font-size: 0.2rem;
     }
 
@@ -504,11 +505,97 @@ input:checked + label > .final-img {
 }
 
 // =========================================================
+.info {
+    box-sizing: border-box;
+    position: relative;
+    background-image: url('../imgs/info-bg.png');
+    background-size: cover;
+    min-height: 16rem;
+    color: #6b1a01;
+    &-school {
+        position: absolute;
+        left: 3.8rem;
+        top: 3.5rem;
+        font-size: 0.5rem;
+        max-width: 5.34rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    &-words {
+        background-color: transparent;
+        border: none;
+        font-size: 0.46rem;
+        display: block;
+        position: absolute;
+        top: 4.8rem;
+        left: 2.3rem;
+        width: 5.4rem;
+        color: #6b1a01;
+        outline: none;
+    }
+    &-nick {
+        background-color: transparent;
+        border: none;
+        font-size: 0.46rem;
+        display: block;
+        position: absolute;
+        top: 8.8rem;
+        left: 2.3rem;
+        width: 5.4rem;
+        color: #6b1a01;
+        outline: none;
+    }
+    &-reload {
+        position: absolute;
+        top: 13.6rem;
+        left: 1.1rem;
+        width: 3.13rem;
+        height: 1.16rem;
+        background-image: url('../imgs/info-reload.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    &-next {
+        position: absolute;
+        top: 13.6rem;
+        left: 5.8rem;
+        width: 3.13rem;
+        height: 1.16rem;
+        background-image: url('../imgs/info-next.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+}
+
+// =========================================================
 .share {
     box-sizing: border-box;
     position: relative;
     width: 10rem;
     height: 16.08rem;
+    color: #6b1a01;
+
+    &-info {
+        &_school {
+            position: absolute;
+            top: 14.7rem;
+            font-size: 0.32rem;
+            left: 1.3rem;
+        }
+        &_word {
+            position: absolute;
+            top: 15.2rem;
+            font-size: 0.32rem;
+            left: 1.3rem;
+        }
+        &_nick {
+            position: absolute;
+            top: 14.7rem;
+            font-size: 0.3rem;
+            left: 6rem;
+        }
+    }
 
     &-bg {
         position: absolute;

@@ -1,8 +1,11 @@
 'use strict';
 
 // TODO 弱网环境下的体验 需要修改一下
-
 (function (global) {
+    global.onload = function () {
+        showToast()('close');
+    };
+
     // nameObj 存放学校名字，图片通过命名规范动态填入
     var nameArr = [{ group: 'A', teams: ['新加坡国立大学', '重庆大学', '西安交通大学'] }, { group: 'B', teams: ['桂林电子科技大学', '香港中文大学', '华北水利水电大学'] }, { group: 'C', teams: ['合肥赛区冠军', '墨尔本大学', '内蒙古科技大学'] }, { group: 'D', teams: ['西安外国语大学', '哈佛大学&耶鲁大学', '福建江夏学院'] }, { group: 'E', teams: ['哈尔滨工程大学', '山西财经大学', '华威大学'] }, { group: 'F', teams: ['国际关系学院', '海南大学', '吉林农业大学'] }, { group: 'G', teams: ['中山大学', '河北大学', '世新大学'] }, { group: 'H', teams: ['国防科技大学', '华侨大学', '艾因夏姆斯大学'] }, { group: 'I', teams: ['东北大学', '吉林财经大学', '东吴大学'] }, { group: 'J', teams: ['兰州理工大学', '云南大学', '北京师范大学'] }, { group: 'K', teams: ['中国人民大学', '澳门城市大学', '山东建筑大学'] }, { group: 'L', teams: ['浙江理工大学', '北京师范大学珠海分校', '马来亚大学'] }, { group: 'M', teams: ['中国民航大学', '爱丁堡大学', '武汉理工大学'] }, { group: 'N', teams: ['四川大学', '待定大学', '清华大学'] }, { group: 'O', teams: ['江西财经大学', '南开大学', '新南威尔士大学'] }, { group: 'P', teams: ['东北财经大学', '加拿大联队', '哈尔滨工业大学（威海）'] }];
     // teamArr 首次渲染数据之前生成，用于读取队伍信息，小组赛筛选
@@ -26,6 +29,9 @@
     var thrBtn = document.getElementById("thr-btn");
     var furBtn = document.getElementById("fur-btn");
     var finalBtn = document.getElementById("final-btn");
+    var reloadBtn = document.getElementById("info-reload");
+    var nextBtn = document.getElementById("info-next");
+    var showToast = global.showToast;
 
     // 是否可以翻页
     var SLIDE_NEXT = false;
@@ -105,7 +111,8 @@
 
         if (!selectAll) {
             SLIDE_NEXT = false;
-            alert("请选择完全");
+
+            showToast()('warn');
 
             return;
         } else {
@@ -148,7 +155,7 @@
 
         if (!selectAll) {
             SLIDE_NEXT = false;
-            alert("请选择完整");
+            showToast()('warn');
 
             return;
         }
@@ -195,7 +202,7 @@
         if (!selectAll) {
             SLIDE_NEXT = false;
 
-            alert("请选择完全");
+            showToast()('warn');
 
             return;
         } else {
@@ -274,9 +281,26 @@
                 shortName = item.team;
             }
 
-            eightLeftStr += '\n                <div class="eight-item">\n                    <img class="eight-item_img" src="../imgs/school/' + item.img + '" />\n                    <div class="eight-item_name">' + shortName + '</div>\n                </div>\n            ';
+            var elem = document.createElement('div');
+            var text = document.createElement('div');
+            var img = new Image();
+
+            elem.setAttribute('class', 'eight-item');
+            text.setAttribute('class', 'eight-item_name');
+            img.setAttribute('class', 'eight-item_img');
+            text.innerText = '' + shortName;
+
+            img.src = '../imgs/school/' + item.img;
+
+            img.onload = function () {
+                console.log('=== img onload ===');
+            };
+
+            elem.appendChild(img);
+            elem.appendChild(text);
+
+            eightLeft.appendChild(elem);
         }
-        eightLeft.innerHTML = eightLeftStr;
 
         // 右边 8
         for (var _i = 0; _i < 8; _i++) {
@@ -467,33 +491,61 @@
 
     // 05 btn
     finalBtn.addEventListener("click", function () {
-        // TODO 这里没选就变成傻逼了
+        var winnerSchool = '';
+
+        winner = filterList(document.getElementById("list-final"));
+        generateGuess();
+
+        for (var key in teamPoolObj) {
+            if (winner == key) {
+                winnerSchool = teamPoolObj[key].team;
+            }
+        }
+
+        document.getElementById("info-school").innerText = winnerSchool;
+
+        if (SLIDE_NEXT) {
+            sliderContainer.setAttribute("style", '\n               -webkit-transform: translateX(-60rem);\n               transform: translateX(-60rem);\n           ');
+        }
+    });
+
+    // reload btn
+    reloadBtn.addEventListener("click", function () {
+        window.location.reload();
+    });
+
+    // next btn
+    nextBtn.addEventListener("click", function () {
+        var winnerSchool = '';
+
+        for (var key in teamPoolObj) {
+            if (winner == key) {
+                winnerSchool = teamPoolObj[key].team;
+            }
+        }
+
+        // 获取名字和话
+        document.getElementById("share-info_school").innerText = winnerSchool;
+        document.getElementById("share-info_word").innerText = document.getElementById("info-words").value;
+        document.getElementById("share-info_nick").innerText = document.getElementById("info-nick").value;
+
         global.getImg();
+
+        showToast()();
 
         if (SLIDE_NEXT) {
             setTimeout(function () {
+                showToast()('close');
+
                 sliderContainer.setAttribute("style", '\n                    -webkit-transform: translateX(-70rem);\n                    transform: translateX(-70rem);\n                ');
-            }, 500);
+            }, 10000);
         }
     });
 
     // 导出到全局
-    // global.getOneList = getOneList;
-    // global.eightFour = function() {
-    //     roundTwoArr = filterList(document.getElementById("list-two"));
-    //     generateData(roundTwoArr, document.getElementById("list-thr"), 'two');
-    // };
-    // global.fourTwo = function() {
-    //     roundThrArr = filterList(document.getElementById("list-thr"));
-    //     generateData(roundThrArr, document.getElementById("list-fur"), 'fur');
-    // };
-    // global.twoOne = function() {
-    //     roundFurArr = filterList(document.getElementById("list-fur"));
-    //     generateData(roundFurArr, document.getElementById("list-final"), 'final');
-    // };
     global.getImg = function () {
-        winner = filterList(document.getElementById("list-final"));
-        generateGuess();
+        // generateGuess();
         generateImage(document.getElementById("share"), document.getElementById("result"));
     };
+    global.showToast = showToast;
 })(window);

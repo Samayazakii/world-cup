@@ -65,7 +65,11 @@
             </div>
             <div class="slide-items">
                 <div id="info" class="info">
-                    <div>输入名字</div>
+                    <div id="info-school" class="info-school"></div>
+                    <input type="text" id="info-words" class="info-words" placeholder="写下祝福语（10字以内）" maxlength="10">
+                    <input type="text" id="info-nick" class="info-nick" placeholder="输入你的昵称（5字以内）" maxlength="6">
+                    <div class="info-reload" id="info-reload"></div>
+                    <div class="info-next" id="info-next"></div>
                 </div>
             </div>
             <div class="slide-items">
@@ -86,11 +90,99 @@
                     <div id="share-two_right" class="share-two_right"></div>
                     <div id="share-four_right" class="share-four_right"></div>
                     <div id="share-eight_right" class="share-eight_right"></div>
+                    <div id="share-info_school" class="share-info_school"></div>
+                    <div id="share-info_word" class="share-info_word"></div>
+                    <div id="share-info_nick" class="share-info_nick"></div>
                 </div>
             </div>
         </div>
     </section>
 
+    <script>
+    // 写一个 toast 用来替代 alert
+    window.showToast = function () {
+        let isShow = false;
+
+        return function (type, callback) {
+            if (isShow) { return; }
+
+            let container = document.createElement('div');
+            let info = document.createElement('div');
+            
+            container.id = "toast";
+            container.setAttribute('style', `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 10rem;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-pack: justify;
+                -ms-flex-pack: justify;
+                justify-content: space-between;
+                -webkit-box-align: center;
+                -ms-flex-align: center;
+                align-items: center;
+            `);
+            info.setAttribute('style', `
+                width: 5rem;
+                height: 1.4rem;
+                line-height: 1.4rem;
+                border-radius: 0.1rem;
+                background-color: #fff;
+                color: #333;
+                font-size: 0.5rem;
+                text-align: center;
+                margin: 0 auto;
+            `);
+
+            switch (type) {
+                case 'close':
+                    setTimeout(() => {
+                        isShow = false;
+                        document.body.removeChild(document.getElementById('toast'));
+                    }, 2000);
+                break;
+                case 'warn':
+                    info.innerText = '请选择完全';
+                    container.appendChild(info);
+                    document.body.appendChild(container);
+            
+                    isShow = true;
+                    
+                    setTimeout(() => {
+                        isShow = false;
+                        document.body.removeChild(container);
+                    }, 2000);
+                break;
+                case 'wait':
+                    info.innerText = '请稍等';
+                    container.appendChild(info);
+                    document.body.appendChild(container);
+                    
+                    isShow = true;
+                    
+                    setTimeout(() => {
+                        isShow = false;
+                        document.body.removeChild(container);
+                    }, 2000);
+                break;
+                default:
+                    info.innerText = '正在加载中，请稍等';
+                    container.appendChild(info);
+                    document.body.appendChild(container);
+                    
+                    isShow = true;
+                break;
+            }
+        }
+    }
+
+    showToast()();
+    </script>
     <script src="../js/html2canvas.js"></script>
     <script src="../js/index.js"></script>
 </body>
