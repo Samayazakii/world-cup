@@ -333,6 +333,21 @@
         let twoLeftStr = '';
         let twoRightStr = '';
 
+        let promiseAll = [];
+
+        let bgImg = document.getElementById('share-bg');
+        
+        bgImg.src = '../imgs/share-bg.png';
+        promiseAll.push(new Promise((resolve, reject) => {
+            bgImg.onload = function () {
+                console.log('onload');
+                resolve();
+            }
+            bgImg.onerror = function () {
+                resolve();
+            }
+        }));
+
         // 左边 8
         for (let i = 0; i < 8; i++) {
             let id = roundOneArr.shift();
@@ -363,15 +378,20 @@
             text.innerText = `${shortName}`;
             
             img.src = `../imgs/school/${item.img}`;
-            
-            img.onload = function () {
-                console.log('=== img onload ===');
-            }
 
             elem.appendChild(img);
             elem.appendChild(text);
 
             eightLeft.appendChild(elem);
+
+            promiseAll.push(new Promise((resolve, reject) => {
+                img.onload = function () {
+                    resolve();
+                }
+                img.onerror = function () {
+                    resolve();
+                }
+            }));
         }
 
         // 右边 8
@@ -393,14 +413,31 @@
                 shortName = item.team;
             }
 
-            eightRightStr += `
-                <div class="eight-item">
-                    <img class="eight-item_img" src="../imgs/school/${item.img}" />
-                    <div class="eight-item_name">${shortName}</div>
-                </div>
-            `;
+            let elem = document.createElement('div');
+            let text = document.createElement('div');
+            let img = new Image();
+
+            elem.setAttribute('class', 'eight-item');
+            text.setAttribute('class', 'eight-item_name');
+            img.setAttribute('class', 'eight-item_img');
+            text.innerText = `${shortName}`;
+            
+            img.src = `../imgs/school/${item.img}`;
+
+            elem.appendChild(img);
+            elem.appendChild(text);
+
+            eightRight.appendChild(elem);
+
+            promiseAll.push(new Promise((resolve, reject) => {
+                img.onload = function () {
+                    resolve();
+                }
+                img.onerror = function () {
+                    resolve();
+                }
+            }));
         }
-        eightRight.innerHTML = eightRightStr;
 
         // 左边 4
         for (let i = 0; i < 4; i++) {
@@ -413,13 +450,27 @@
                 }
             }
 
-            fourLeftStr += `
-                <div class="four-item">
-                    <img class="four-item_img" src="../imgs/school/${item.img}" />
-                </div>
-            `;
+            let elem = document.createElement('div');
+            let img = new Image();
+
+            elem.setAttribute('class', 'four-item');
+            img.setAttribute('class', 'four-item_img');
+            
+            img.src = `../imgs/school/${item.img}`;
+
+            elem.appendChild(img);
+
+            fourLeft.appendChild(elem);
+
+            promiseAll.push(new Promise((resolve, reject) => {
+                img.onload = function () {
+                    resolve();
+                }
+                img.onerror = function () {
+                    resolve();
+                }
+            }));
         }
-        fourLeft.innerHTML = fourLeftStr;
 
         // 右边 4
         for (let i = 0; i < 4; i++) {
@@ -432,13 +483,27 @@
                 }
             }
 
-            fourRightStr += `
-                <div class="four-item">
-                    <img class="four-item_img" src="../imgs/school/${item.img}" />
-                </div>
-            `;
+            let elem = document.createElement('div');
+            let img = new Image();
+
+            elem.setAttribute('class', 'four-item');
+            img.setAttribute('class', 'four-item_img');
+            
+            img.src = `../imgs/school/${item.img}`;
+
+            elem.appendChild(img);
+
+            fourRight.appendChild(elem);
+
+            promiseAll.push(new Promise((resolve, reject) => {
+                img.onload = function () {
+                    resolve();
+                }
+                img.onerror = function () {
+                    resolve();
+                }
+            }));
         }
-        fourRight.innerHTML = fourRightStr;
 
         // 左边 2
         for (let i = 0; i < 2; i++) {
@@ -451,13 +516,27 @@
                 }
             }
 
-            twoLeftStr += `
-                <div class="two-item">
-                    <img class="two-item_img" src="../imgs/school/${item.img}" />
-                </div>
-            `;
+            let elem = document.createElement('div');
+            let img = new Image();
+
+            elem.setAttribute('class', 'two-item');
+            img.setAttribute('class', 'two-item_img');
+            
+            img.src = `../imgs/school/${item.img}`;
+
+            elem.appendChild(img);
+
+            twoLeft.appendChild(elem);
+
+            promiseAll.push(new Promise((resolve, reject) => {
+                img.onload = function () {
+                    resolve();
+                }
+                img.onerror = function () {
+                    resolve();
+                }
+            }));
         }
-        twoLeft.innerHTML = twoLeftStr;
 
         // 右边 2
         for (let i = 0; i < 2; i++) {
@@ -470,13 +549,27 @@
                 }
             }
 
-            twoRightStr += `
-                <div class="two-item">
-                    <img class="two-item_img" src="../imgs/school/${item.img}" />
-                </div>
-            `;
+            let elem = document.createElement('div');
+            let img = new Image();
+
+            elem.setAttribute('class', 'two-item');
+            img.setAttribute('class', 'two-item_img');
+            
+            img.src = `../imgs/school/${item.img}`;
+
+            elem.appendChild(img);
+
+            twoRight.appendChild(elem);
+
+            promiseAll.push(new Promise((resolve, reject) => {
+                img.onload = function () {
+                    resolve();
+                }
+                img.onerror = function () {
+                    resolve();
+                }
+            }));
         }
-        twoRight.innerHTML = twoRightStr;
 
         // 左边 1
         for (let i = 0; i < 1; i++) {
@@ -520,6 +613,10 @@
 
             winnerElement.setAttribute('src', `../imgs/school/${item.img}`);
         }
+
+        Promise.all(promiseAll).then(() => {
+            console.log('promise all');
+        });
     }
 
     // 生成图片，需要调整一下样式
@@ -533,6 +630,17 @@
             image.className = "result-img";
             image.src = canvas.toDataURL("image/png");
             target.appendChild(image);
+        }).then(() => {
+            if (SLIDE_NEXT) {
+                setTimeout(() => {
+                    showToast()('close');
+                    
+                    sliderContainer.setAttribute("style", `
+                        -webkit-transform: translateX(-70rem);
+                        transform: translateX(-70rem);
+                    `);
+                }, 1000);
+            }
         });
     }
 
@@ -644,17 +752,6 @@
         global.getImg();
 
         showToast()();
-        
-        if (SLIDE_NEXT) {
-            setTimeout(() => {
-                showToast()('close');
-                
-                sliderContainer.setAttribute("style", `
-                    -webkit-transform: translateX(-70rem);
-                    transform: translateX(-70rem);
-                `);
-            }, 10000);
-        }
     });
 
     // 导出到全局
