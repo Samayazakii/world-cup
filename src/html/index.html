@@ -93,6 +93,7 @@
                     <div id="share-info_school" class="share-info_school"></div>
                     <div id="share-info_word" class="share-info_word"></div>
                     <div id="share-info_nick" class="share-info_nick"></div>
+                    <div id="share-line" class="share-line"></div>
                 </div>
             </div>
         </div>
@@ -126,11 +127,12 @@
                 -webkit-box-align: center;
                 -ms-flex-align: center;
                 align-items: center;
+                z-index: 10000;
             `);
             info.setAttribute('style', `
-                width: 5rem;
-                height: 1.4rem;
-                line-height: 1.4rem;
+                width: 8rem;
+                height: 1.6rem;
+                line-height: 1.6rem;
                 border-radius: 0.1rem;
                 background-color: #fff;
                 color: #333;
@@ -159,19 +161,14 @@
                     }, 2000);
                 break;
                 case 'wait':
-                    info.innerText = '请稍等';
+                    info.innerText = '请稍等 图片生成后长按保存';
                     container.appendChild(info);
                     document.body.appendChild(container);
                     
                     isShow = true;
-                    
-                    setTimeout(() => {
-                        isShow = false;
-                        document.body.removeChild(container);
-                    }, 2000);
                 break;
                 default:
-                    info.innerText = '正在加载中，请稍等';
+                    info.innerText = '资源加载中 请稍等';
                     container.appendChild(info);
                     document.body.appendChild(container);
                     

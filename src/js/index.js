@@ -19,7 +19,7 @@
         { group: 'K', teams: ['中国人民大学', '澳门城市大学', '山东建筑大学'] },
         { group: 'L', teams: ['浙江理工大学', '北京师范大学珠海分校', '马来亚大学'] },
         { group: 'M', teams: ['中国民航大学', '爱丁堡大学', '武汉理工大学'] },
-        { group: 'N', teams: ['四川大学', '待定大学', '清华大学'] },
+        { group: 'N', teams: ['四川大学', '莫斯科国际关系学院', '清华大学'] },
         { group: 'O', teams: ['江西财经大学', '南开大学', '新南威尔士大学'] },
         { group: 'P', teams: ['东北财经大学', '加拿大联队', '哈尔滨工业大学（威海）'] },
     ];
@@ -150,7 +150,6 @@
             SLIDE_NEXT = true;
         }
 
-        console.log('全部选择完全');
         // 第一轮选择结束记录组 id 到顶层变量
         roundOneArr = winTeamArr;
 
@@ -619,6 +618,158 @@
         });
     }
 
+    // 恶心的划线函数
+    function generateLine() {
+        // 存 flag 用来画
+        let eightArr = [];
+        let fourArr = [];
+        let twoArr = [];
+        let winArr = [];
+        let resElem = document.createDocumentFragment();
+
+        roundOneArr.forEach((item, index) => {
+            // if (roundTwoArr.includes(item)) {
+            if (item == winner) {
+                eightArr.push(true);
+            } else {
+                eightArr.push(false);
+            }
+        });
+
+        roundTwoArr.forEach((item, index) => {
+            // if (roundThrArr.includes(item)) {
+            if (item == winner) {
+                fourArr.push(two);
+            } else {
+                fourArr.push(false);
+            }
+        });
+
+        roundThrArr.forEach((item, index) => {
+            // if (roundFurArr.includes(item)) {
+            if (item == winner) {
+                twoArr.push(true);
+            } else {
+                twoArr.push(false);
+            }
+        });
+
+        roundFurArr.forEach((item, index) => {
+            if (item == winner) {
+                winArr.push(true);
+            } else {
+                winArr.push(false);
+            }
+        });
+
+        let eightLeftDiv = document.createElement('div');
+        let eightRightDiv = document.createElement('div');
+        let fourLeftDiv = document.createElement('div');
+        let fourRightDiv = document.createElement('div');
+        let twoLeftDiv = document.createElement('div');
+        let twoRightDiv = document.createElement('div');
+        let winLeftDiv = document.createElement('div');
+        let winRightDiv = document.createElement('div');
+        
+        eightLeftDiv.setAttribute('class', 'share-line-line-eight_left');
+        eightRightDiv.setAttribute('class', 'share-line-line-eight_right');
+        fourLeftDiv.setAttribute('class', 'share-line-line-four_left');
+        fourRightDiv.setAttribute('class', 'share-line-line-four_right');
+        twoLeftDiv.setAttribute('class', 'share-line-line-two_left');
+        twoRightDiv.setAttribute('class', 'share-line-line-two_right');
+        winLeftDiv.setAttribute('class', 'share-line-line-one_left');
+        winRightDiv.setAttribute('class', 'share-line-line-one_right');
+
+        for (let i = 0; i < 8; i++) {
+            let d = document.createElement('div');
+
+            d.setAttribute('class', 'share-line-line-eight_item');
+            
+            if (!eightArr[i]) {
+                d.setAttribute('style', 'opacity: 0');
+            }
+            
+            eightLeftDiv.appendChild(d);
+        }
+        
+        for (let i = 8; i < 16; i++) {
+            let d = document.createElement('div');
+
+            d.setAttribute('class', 'share-line-line-eight_item');
+
+            if (!eightArr[i]) {
+                d.setAttribute('style', 'opacity: 0');
+            }
+
+            eightRightDiv.appendChild(d);
+        }
+
+        for (let i = 0; i < 4; i++) {
+            let d = document.createElement('div');
+
+            d.setAttribute('class', 'share-line-line-four_item');
+
+            if (!fourArr[i]) {
+                d.setAttribute('style', 'opacity: 0');
+            }
+
+            fourLeftDiv.appendChild(d);
+        }
+        
+        for (let i = 4; i < 8; i++) {
+            let d = document.createElement('div');
+
+            d.setAttribute('class', 'share-line-line-four_item');
+
+            if (!fourArr[i]) {
+                d.setAttribute('style', 'opacity: 0');
+            }
+
+            fourRightDiv.appendChild(d);
+        }
+
+        for (let i = 0; i < 2; i++) {
+            let d = document.createElement('div');
+
+            d.setAttribute('class', 'share-line-line-two_item');
+
+            if (!twoArr[i]) {
+                d.setAttribute('style', 'opacity: 0');
+            }
+
+            twoLeftDiv.appendChild(d);
+        }
+        
+        for (let i = 2; i < 4; i++) {
+            let d = document.createElement('div');
+
+            d.setAttribute('class', 'share-line-line-two_item');
+
+            if (!twoArr[i]) {
+                d.setAttribute('style', 'opacity: 0');
+            }
+
+            twoRightDiv.appendChild(d);
+        }
+
+        if (winArr[0]) {
+            winRightDiv.setAttribute('style', 'opacity: 0');
+        } else {
+            winLeftDiv.setAttribute('style', 'opacity: 0');
+        }
+
+        resElem.appendChild(eightLeftDiv);
+        resElem.appendChild(eightRightDiv);
+        resElem.appendChild(fourLeftDiv);
+        resElem.appendChild(fourRightDiv);
+        resElem.appendChild(twoLeftDiv);
+        resElem.appendChild(twoRightDiv);
+        resElem.appendChild(winLeftDiv);
+        resElem.appendChild(winRightDiv);
+
+        document.getElementById('share-line').appendChild(resElem);
+    }
+
     // 生成图片，需要调整一下样式
     function generateImage(src, target) {
         global.html2canvas(src).then(canvas => {
@@ -670,7 +821,12 @@
     // 02 btn
     twoBtn.addEventListener("click", function () {
         roundTwoArr = filterList(document.getElementById("list-two"));
-        generateData(roundTwoArr, document.getElementById("list-thr"), 'two');
+        
+        if (!!roundTwoArr || roundTwoArr.length > 0) {
+            generateData(roundTwoArr, document.getElementById("list-thr"), 'two');
+        } else {
+            showToast()('warn');
+        }
         
         if (SLIDE_NEXT) {
             sliderContainer.setAttribute("style", `
@@ -683,7 +839,12 @@
     // 03 btn
     thrBtn.addEventListener("click", function () {
         roundThrArr = filterList(document.getElementById("list-thr"));
-        generateData(roundThrArr, document.getElementById("list-fur"), 'fur');
+        
+        if (!!roundThrArr || roundThrArr.length > 0) {
+            generateData(roundThrArr, document.getElementById("list-fur"), 'fur');
+        } else {
+            showToast()('warn');
+        }
         
         if (SLIDE_NEXT) {
              sliderContainer.setAttribute("style", `
@@ -696,7 +857,12 @@
     // 04 btn
     furBtn.addEventListener("click", function () {
         roundFurArr = filterList(document.getElementById("list-fur"));
-        generateData(roundFurArr, document.getElementById("list-final"), 'final');
+        
+        if (!!roundFurArr || roundFurArr.length > 0) {
+            generateData(roundFurArr, document.getElementById("list-final"), 'final');
+        } else {
+            showToast()('warn');
+        }
 
         if (SLIDE_NEXT) {
              sliderContainer.setAttribute("style", `
@@ -711,7 +877,14 @@
         let winnerSchool = '';
 
         winner = filterList(document.getElementById("list-final"));
-        generateGuess();
+        
+        if (!!winner) {
+            generateLine();
+            generateGuess();
+        } else {
+            showToast()('warn');
+            return;
+        }
 
         for (let key in teamPoolObj) {
             if (winner == key) {
@@ -751,7 +924,7 @@
         
         global.getImg();
 
-        showToast()();
+        showToast()('wait');
     });
 
     // 导出到全局
