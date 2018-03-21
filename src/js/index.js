@@ -881,6 +881,14 @@
         if (!!winner) {
             generateLine();
             generateGuess();
+            global.ajax({
+                type: "post",
+                url: "//multi.hjls.org/group",
+                data: {
+                    group: winner
+                },
+                timeOut:5000,
+            });
         } else {
             showToast()('warn');
             return;
