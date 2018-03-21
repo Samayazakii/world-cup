@@ -885,7 +885,7 @@
                 type: "post",
                 url: "//multi.hjls.org/group",
                 data: {
-                    group: winner
+                    group: winner.slice(0,2).concat(~~winner[2]+1)
                 },
                 timeOut:5000,
             });
